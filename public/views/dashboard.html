@@ -1,0 +1,27 @@
+<div>
+    <div class="admin-body">
+        <div class="admin-message">
+            <h2 id="admin-message-accueil">{{title}}</h2>
+            Sélectionnez dans le menu supérieur l'action que vous voulez effectuer.
+        </div>
+        <div id="currentSuggestionDashboard" ng-click="go('/suggestion')">
+            <img class="posterSuggestionDashboard" src="../{{suggestion.poster}}" alt="La suggestion de l'équipe!"/>
+            <h3 id="titleSuggestionDashboard">{{suggestion.title}}</h3>
+            <ul id="recapSuggestionDashboard">
+                <li><i>{{suggestion.genre}} , {{suggestion.duration}}</i></li>
+                <li>{{suggestion.director}}</li>
+                <li>{{suggestion.actors}}</li>
+            </ul>
+            <p id="synopsisSuggestionDashboard">{{suggestion.synopsis}}</p>
+        </div>
+        <div id="olderSuggestionDashboard" ng-click="go('/allSuggestion')">
+            <img class="posterSuggestionDashboard" src="../{{penultimateSuggestion.poster}}" alt="Nos anciennes suggestions"/>
+            <h3 id="titleSuggestionDashboard">Nos anciennes suggestions</h3>
+            <ul id="recapOldSuggestionDashboard">
+                <li ng-repeat="movie in movies">{{movie.title}}</li>
+                <li> . . .</li>
+            </ul>
+            <p id="clickForMore">C'est par ici! </p>
+        </div>
+    </div>
+</div>

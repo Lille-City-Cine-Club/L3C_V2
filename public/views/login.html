@@ -1,0 +1,47 @@
+<div>
+    <div id="error" class="error" ng-show="error">{{errorMessage}}</div>
+    <div id="form">
+        <form name="loginForm"  id="formLogin" ng-submit="processLogin()" novalidate>
+            <h2> Connexion : </h2>
+            <ul>
+                <li id="PseudoLogin">
+                    <label class="description"> E-Mail : </label>
+                    <input name="pseudoLogin" id="pseudoLogin" maxlength="255" type="email" value="" ng-model="formData.email" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" placeholder="Votre mail" required/>
+                </li>
+                <li id="PasswordLogin">
+                    <label class="description"> Mot de passe : </label>
+                    <input name="passwordLogin" id="passwordLogin" maxlength="255" type="password" value="" ng-model="formData.password" placeholder="Votre mot de passe" required/>
+                    <a  href="forgottenPass" >
+                        <span id="forgottenMdp" class="glyphicon glyphicon-question-sign" style="font-size:18px; float:right; padding-right:70px; padding-top:10px; color:black;" title="Mot de passe oublié ?"></span>
+                    </a>
+                </li>
+                <li>
+                    <div id="ButtonsWrapper" >
+                        <input type="hidden" name="form_id" value="955925" />
+                        <input id="saveForm" class="buttonValider" type="submit"  value="Se connecter" ng-disabled="loginForm.$invalid" />
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div id="inscription">
+        <h2> Pas encore inscrit ? </h2>
+        <p id="accrocheInscription"> 
+            Le <strong>Lille City Ciné Club</strong> vous propose <i>(au moins !)</i> une suggestion de films par semaine !
+            <br/>
+            Une sélection minutieuse parmi les films à l'affiche est faite pour <strong>VOUS</strong>, afin de vous aider à choisir <strong>LE</strong> film à voir cette semaine.
+            <br/><br>	
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Avec bien sûr la raison pour laquelle nous avons choisi ce (ces) film(s) cette semaine.
+            <br/>
+            Vous trouverez aussi un synopsis, les acteurs principaux et les séances* dans les cinémas de la métropole lilloise.<i id="dvlpt">(*service en cours de développement)</i>
+            <br/>
+            <br>
+            <strong>N'attendez plus, INSCRIVEZ VOUS !</strong>
+        </p>
+        <div id="buttonInscription">
+            <p>
+                <a href="inscription" id="inscriptionButton">S'inscrire !</a>
+            </p>
+        </div>
+    </div>
+</div>

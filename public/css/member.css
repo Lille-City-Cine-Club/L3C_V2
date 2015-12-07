@@ -1,0 +1,13 @@
+#profilMember{
+    width: auto;
+    height: 75%;
+}
+
+#profil{
+    margin-left: 10%;
+}
+
+#favoritedGenre{
+    list-style-type: none;
+    margin-top: -1%;
+}

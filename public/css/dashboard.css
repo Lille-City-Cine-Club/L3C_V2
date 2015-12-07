@@ -1,0 +1,60 @@
+.admin-body{
+    height : 75%;
+}
+.admin-message{
+    font-size : 1em;
+    margin-left : 10%;
+    line-height: 65%;
+}
+.admin-message-accueil{
+    font-weight : bold;
+}
+
+#currentSuggestionDashboard{
+    border: 2px solid black;
+    float: left;
+    margin-left: 10%;
+    margin-top: 5%;
+    width: 35%;
+    height: 50%;
+}
+#currentSuggestionDashboard:hover{
+    cursor:pointer;
+}
+
+.posterSuggestionDashboard{
+    height: 100%;
+    float:left;
+    padding: 2%;
+}
+
+#recapSuggestionDashboard{
+    list-style-type: none;
+}
+
+#synopsisSuggestionDashboard{
+    margin-top:-10px; 
+    width: 285px;
+    height:90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#olderSuggestionDashboard{
+    border: 2px solid black;
+    float: right;
+    margin-right: 10%;
+    margin-top: 5%;
+    width: 35%;
+    height: 50%;
+    cursor: pointer;
+}
+
+#recapOldSuggestionDashboard{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+#clickForMore{
+    font-weight: bold;
+}

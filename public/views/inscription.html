@@ -1,0 +1,126 @@
+<div>
+    <div id="success" class="success" ng-show="success" >{{successMessage}}</div>
+    <div id="error" class="error" ng-show="error" >{{errorMessage}}</div>
+    <div id="form">	
+        <form name="inscriptionForm" id="formInscription" ng-submit="processInscription()" novalidate>
+            <h2> Inscription : </h2>			
+            <ul>
+                <li id="Pseudo" >
+                    <label class="description" >Pseudo: </label>
+                    <input name="pseudo" id="pseudo" type="text" maxlength="255" value="" ng-model="formData.pseudo" placeholder="Votre pseudo" required/>
+                    <span ng-show="inscriptionForm.pseudo.$error.required && !inscriptionForm.pseudo.$pristine">
+                        Un pseudo est nécessaire
+                    </span>
+                </li>		
+                <li id="Mail" >
+                    <label class="description" >Email: </label>
+                    <input name="email" id="mail" type="email" maxlength="255" value="" ng-model="formData.mail" placeholder="Votre adresse mail" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" required/> 
+                    <span ng-show="inscriptionForm.email.$error.required && !inscriptionForm.email.$pristine">
+                        Un Email est nécessaire
+                    </span>
+                    <span ng-show="inscriptionForm.email.$error.pattern && !inscriptionForm.email.$pristine" ng-message="pattern">
+                        Un Email valide est nécessaire
+                    </span>
+                </li>		
+                <li id="Pass" >
+                    <label class="description" >Mot de passe: </label>
+                    <input name="password" id="pass"  type="password" maxlength="255" value="" ng-model="formData.password" ng-minlength="6" placeholder="Minimum 6 caractères" required/>
+                    <span ng-show="inscriptionForm.password.$invalid && !inscriptionForm.password.$pristine">
+                        Le mot de passe doit faire au moins 6 caractères.
+                    </span>
+                    <span ng-show="inscriptionForm.password.$error.required && !inscriptionForm.password.$pristine">
+                       Un mot de passe est nécessaire.
+                    </span>
+                </li>	
+                <li id="Pass2" >
+                    <label class="description" >Confirmation: </label>
+                    <input name="confirmPassword" id="pass2"  type="password" maxlength="255" value="" ng-model="formData.confirmPass" ng-minlength="6" ng-pattern="formData.password" placeholder="Veuillez confirmer votre mot de passe" required/>
+                    <span ng-show="inscriptionForm.confirmPassword.$minlength && !inscriptionForm.confirmPassword.$pristine">
+                        La confirmation doit faire au moins 6 caractères.
+                    </span>
+                    <span ng-show="inscriptionForm.confirmPassword.$error.required && !inscriptionForm.confirmPassword.$pristine">
+                        Une confirmation est nécessaire.
+                    </span>
+                    <span ng-show="formData.password !== formData.confirmPass && !inscriptionForm.confirmPassword.$pristine">
+                        Le mot de passe et la confirmation doivent être identiques.
+                    </span>
+                </li>					
+                <!-- ComboBox: Genre-->
+                <li id="Genre">
+                    <label class="description"> Genre(s) préféré(s) : </label>
+                    <br/>
+                    <select name="genre1" id="genre1" ng-model="formData.genre1" required>
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="policier">Romantique</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                    <select name="genre2" id="genre2" ng-model="formData.genre2" ng-disabled="inscriptionForm.genre1.$invalid">
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="policier">Romantique</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                    <select name="genre3" id="genre3" ng-model="formData.genre3" ng-disabled="inscriptionForm.genre2.$pristine || (inscriptionForm.genre2.$modelValue === '')">
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="policier">Romantique</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                </li>
+                <span id="errorGenre" ng-show="inscriptionForm.genre1.$invalid && !inscriptionForm.genre1.$pristine">
+                    Il faut au moins sélectionner 1 genre préféré.
+                </span>
+                <li id="Description" >
+                    <label class="description">Une description: </label>
+                    <textarea id="description" ng-model="formData.description" placeholder="Dîtes nous qui vous êtes !"></textarea> 
+                </li>
+                <li id="buttons">
+                    <div id="ButtonsWrapper" >
+                        <input type="hidden" name="form_id" value="955925" />
+                        <input id="saveForm" class="buttonValider" type="submit" value="Valider"  ng-disabled="inscriptionForm.$invalid"/>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>

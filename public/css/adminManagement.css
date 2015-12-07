@@ -1,0 +1,47 @@
+/* ------------------------------------------------------- Admin Management --------------------------------------------------------------- */
+#form #formSearchAdmin{
+height:auto;
+border: 2px solid;
+border-radius:25px;
+margin-top : 4%;
+margin-left: 35%;
+margin-right: 35%;
+margin-bottom:2%;
+padding-bottom:0.7%;
+}
+#form #formFilm h2{
+padding-left: 2.92%;
+}
+#form ul li {
+list-style-type:none;
+line-height:2em;
+}
+#form ul li .descriptionSearch{
+font-style:italic;
+font-weight:200; /*need it so the name of the label doesn't look bold*/
+margin-left:3%;
+}
+#form ul #Recherche {
+margin-left:2%;
+}
+#form ul #Recherche #pseudoSearch{
+margin-left:1%;
+width:50%;
+line-height:1.5em;
+}
+#okAdminSearch{
+float:right;
+padding-top:0.6%;
+padding-right:24%;
+}
+#okSign, #koSign{
+display:none;
+}
+
+#DisplayResultSearch{
+margin-left:32%;
+margin-right:30%;
+}
+.result{
+font-weight:200;
+}

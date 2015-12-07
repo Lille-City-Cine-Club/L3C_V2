@@ -1,0 +1,94 @@
+/* ------------------------------------------------------- Carousel ----------------------------------------------------------------------- */
+.carousel-image-wrapper{
+padding-bottom : 5px;
+display:block;
+}
+
+.carousel-affiche-label{
+font-style:italic;
+font-weight:200;
+padding-top: 10px;	
+/*border: 2px solid;*/
+}
+
+.carousel-affiche{
+float:right;
+margin-top:22%;
+margin-right:2%;
+}
+
+.movie {
+margin: 2%;
+width: 41%;
+/*border: 2px solid blue;*/
+}
+#movie1{
+margin-left:5%;
+}
+#movie3{
+margin-left:5%;
+}
+#movie5{
+margin-left:5%;
+}
+
+#movie2{
+float:right;
+margin-top:-22%;
+margin-right:5%;
+}
+#movie4{
+float:right;
+margin-top:-22%;
+margin-right:5%;
+}
+#movie6{
+float:right;
+margin-top:-22%;
+margin-right:5%;
+}
+
+#posterCarousel{
+margin-left:10%;
+margin-top:2%;
+background-color:#FDEBE3;
+border-radius:25px;
+margin-right:10%;
+}
+
+#posterCarousel label img {
+width: 150px;
+height: 200px;
+}
+
+#saveMovie1{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+#saveMovie2{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+#saveMovie3{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+#saveMovie4{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+#saveMovie5{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+#saveMovie6{
+float:right;
+margin-top:-20%;
+margin-right:25%;
+}
+

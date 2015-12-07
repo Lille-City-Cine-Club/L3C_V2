@@ -1,0 +1,79 @@
+/* -------------------------------------------------------- Login ------------------------------------------------------------------------- */
+#form #formLogin{
+    height:auto;
+    width:30%;
+    border: 2px solid;
+    border-radius:25px;
+    margin-top : 1.7%;
+    margin-left: 35%;
+    margin-right: 30%;
+}
+
+#form ul li {
+    list-style-type:none;
+    line-height:2em;
+}
+#form input{
+    line-height:1.8em;
+    width : 45%;
+}
+#form ul #PseudoLogin #pseudoLogin{
+    margin-left:12.6%;
+}
+
+#PseudoLogin {
+    margin-bottom: 1%;    
+}
+
+input#saveForm{
+    padding: 0px;
+}
+
+
+
+#inscription{
+    margin-top:3%;
+    margin-left:20%;
+    margin-right:20%;
+    margin-bottom:5%;
+}
+#inscription h2{
+    text-align:center;
+}
+#inscription #accrocheInscription{
+    font-size:1.1em;
+    text-align:justify;
+}
+#inscription #accrocheInscription #dvlpt{
+    font-size:0.9em;
+}
+#inscription {
+    text-align:center;
+}
+#inscription #buttonInscription{
+    text-align:center;
+    border: 1px solid;
+    border-radius:25px;
+    width:20%;
+    height:7%;
+    color:#FFF;
+    background:#171717;
+    margin-left:42%;
+    margin-right:42%;
+    font-weight:bold;
+    font-size:1.3em;
+}
+#inscription #buttonInscription a:link{
+    text-decoration:none;
+}
+#inscription #buttonInscription a:visited{
+    color:#FFF;
+}
+#inscription #buttonInscription p{
+    padding:6%;
+}
+#ButtonsWrapper{
+    margin-top:2%;
+    margin-left:-1%;
+    text-align:center;
+}
