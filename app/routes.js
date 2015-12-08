@@ -282,7 +282,7 @@ module.exports = function(app){
     app.post('/postContent',function(req,res){
         console.log('posting content...\n');
 
-        var title,director,actors,genre,duration,synopsis,why,publicationDate;	// le poster est géré par multer. On rajoute juste le chemmin du poster à la base(cf posterPath)
+        var title,director,actors,genre,duration,synopsis,why,publicationDate;	// le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
 
         var response = checkFormFilm(req);					// verification du formulaire
         if(response.codeResponse == "ko"){
