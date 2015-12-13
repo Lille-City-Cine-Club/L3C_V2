@@ -17,6 +17,8 @@ var bcrypt = require('bcryptjs');			// to crypt password before puting them into
 var nodemailer = require('nodemailer');		// to send emails
 var chance = require('chance').Chance();	// to generate random number/strings
 var crypto = require('crypto');				// to generate random strings
+var chalk = require('chalk');               // to be able to style log info in the console
+var multer = require('multer');				// for receiving multipart form
 
 
 // for sending mails
@@ -29,7 +31,68 @@ var mailer = nodemailer.createTransport({
 });
 
 
+// log styles colors for console styling
+var errorLog = chalk.bold.bgRed;
+var successLog = chalk.bold.bgGreen;
+
+
 module.exports = function(app){
+
+    // to store img in form (i.e poster)
+    var done = false;
+    var posterPath;
+    app.use(multer({dest: './public/ressources/poster',
+
+                    rename: function(fieldname, filename, req, res){
+                        // return  fieldname.startsWith("film") ? fieldname : moment().format('YYYY_MM_DD')+'_'+filename ;
+                        /*
+                    console.log('JE SUIS DANS MULTER MOTHERFUCKEEEEERRRRRRRR!!!!');
+                    console.log(fieldname.startsWith("film"));
+					if( fieldname.startsWith("film")){
+                        console.log("poster");
+                        console.log(poster);
+                        testPoster = poster;
+                        console.log("fieldname");
+                        console.log(fieldname);
+                        testFieldname = fieldname;
+						console.log('je suis dans film');
+						return fieldname;
+					}else{
+						console.log('kdjhflkdhfjdhfjdfkjh');
+						return moment().format('YYYY_MM_DD')+'_'+filename;
+					}
+                    */
+                        /*
+                    // remplacement de startsWith car pas encore actif(waiting for ECMAS 6)
+                    if(fieldname.indexOf("film") === 0){
+                        testPoster = "changed!";
+                        testFieldname = "changed!";
+                        return fieldname;
+                    }else{
+                        // pourque l'upload fonctionne sans le if.
+                        return moment().format('YYYY_MM_DD')+"_"+filename;   
+                    }
+                    */
+
+                        // pourque l'upload fonctionne sans le if.
+                        return moment().format('YYYY_MM_DD')+"_"+filename;
+
+                    },
+                    onFileUploadStart: function(file, req, res){
+                        console.log(file.name + ' uploading . . .');
+                    },
+                    onFileUploadComplete: function(file, req, res){
+                        console.log(file.name + ' successfully uploaded to :'+ file.path);
+                        posterPath = file.path;
+                        done=true;
+                    },
+                    onError: function(error, next){
+                        console.log('Error! Uploading failed! ');
+                        console.log(error);
+                        next(error);
+                    }
+                   }));
+
 
     //Suggestion page
     app.get('/suggestion', function(req,res){
@@ -119,15 +182,15 @@ module.exports = function(app){
                 throw err;
             }
             if(movie){
-                
+
                 res.send(movie);
             }else{
-                
+
                 var response = {
                     codeResponse: "ko",
                     message: "pas de suggestion faite portant ce nom désolé"
                 };
-                
+
                 res.send(response);
             }
         });
@@ -277,14 +340,14 @@ module.exports = function(app){
         */
     });
 
-    /*
+
     //posting content to DB
     app.post('/postContent',function(req,res){
         console.log('posting content...\n');
 
-        var title,director,actors,genre,duration,synopsis,why,publicationDate;	// le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
+        var title,director,actors,genre,duration,synopsis,why,publicationDate;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
 
-        var response = checkFormFilm(req);					// verification du formulaire
+        var response = checkForm.checkFormFilm(req);					          // verification du formulaire
         if(response.codeResponse == "ko"){
             res.send(response);
         }else{
@@ -323,7 +386,7 @@ module.exports = function(app){
             };
 
             if(done){										//used with multer to notify the upload sucess
-                console.log("uploading files complete!");
+                console.log(successLog("uploading files complete!"));
             }
 
             var movie = new movieModel(movieSchema);
@@ -338,7 +401,7 @@ module.exports = function(app){
             });
         }
     });
-*/
+
     // Adding new member into DB
     app.post('/newMember', function(req,res){
         console.log('Adding new member...');
@@ -348,7 +411,7 @@ module.exports = function(app){
         checkForm.checkFormMember(req, function(err, response) {
 
             if(response.codeResponse == "ko"){
-                console.log("Adding newMember failed! form wasn't valid.");
+                console.log(errorLog("Adding newMember failed! form wasn't valid."));
                 res.send(response);
             }else{
                 pseudo = req.body.pseudo;
