@@ -59,6 +59,19 @@ app.config(function($routeProvider){
             }
         }
     })
+        .when('/newSuggestion', {
+        templateUrl: "/views/newSuggestion.html",
+        controller: "NewSuggestionController",
+        resolve:{
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(!session.data.isAdmin){
+                        $location.path('/');
+                    }                                     
+                });
+            }
+        }
+    })
         .when('/inscription',{
         templateUrl: "/views/inscription.html",
         controller: "InscriptionController"

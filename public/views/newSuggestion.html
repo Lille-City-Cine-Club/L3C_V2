@@ -1,0 +1,113 @@
+<div>
+    <div id="success" class="success" ng-show="success" >{{successMessage}}</div>
+    <div id="error" class="error" ng-show="error" >{{errorMessage}}</div>
+    <div id="form">	
+        <form name="formNewSuggestion" id="formFilm" ng-submit="processNewSuggestion()" novalidate>
+            <h2> Ajouter un film : </h2>			
+            <ul>
+                <li id="Title" >
+                    <label class="description" >Titre: </label>
+                    <input name="title" id="title" type="text" maxlength="255" value="" ng-model="formData.title" placeholder="Titre" required/> 
+                </li>		
+                <li id="Real" >
+                    <label class="description" >Réalisateur: </label>
+                    <input name="director" id="realisateur" type="text" maxlength="255" value="" ng-model="formData.director" placeholder="Réalisateur" required/> 
+                </li>		
+                <li id="Acteurs" >
+                    <label class="description" >Acteurs: </label>
+                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." required/> 
+                </li>		
+                <!-- ComboBox: Genre-->
+                <li id="Genre">
+                    <label class="description"> Genre(s) : </label>
+                    <select name="genre1" id="genre1" ng-model="formData.genre1" required>
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                    <select name="genre2" id="genre2" ng-model="formData.genre2" ng-disabled="formNewSuggestion.genre1.$invalid">
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                    <select name="genre3" id="genre3" ng-model="formData.genre3" ng-disabled="formNewSuggestion.genre2.$pristine || (formNewSuggestion.genre2.$modelValue === '')">
+                        <option value="" ></option>
+                        <option value="action">Action</option>
+                        <option value="aventure">Aventure</option>
+                        <option value="biographique">Biographique</option>
+                        <option value="catastrophe">Catastrophe</option>
+                        <option value="comedie">Comedie</option>
+                        <option value="drame">Drame</option>
+                        <option value="espionnage">Espionnage</option>
+                        <option value="fantastique">Fantastique</option>
+                        <option value="historique">Historique</option>
+                        <option value="horreur">Horreur</option>
+                        <option value="peplum">Peplum</option>
+                        <option value="policier">Policier</option> 
+                        <option value="science-fiction">Science-Fiction</option>
+                        <option value="thriller">Thriller</option>
+                        <option value="western">Western</option>
+                    </select>
+                </li>
+                <li id="duree">
+                    <label class="description"> Durée du Film : </label>
+                    <input name="duree" id="duree" placeholder="Durée du film" type="text" ng-model="formData.duration" required/> 
+                </li>
+                <li id="Synopsis" >
+                    <label class="description" >Synopsis: </label>
+                    <textarea name="synopsis" id="synopsis" placeholder="Synopsis" ng-model="formData.synopsis" required></textarea> 
+                </li>		
+                <li id="Affiche" >
+                    <div id="affiche-wrapper">
+                        <label class="description" id="affiche-description">L'affiche du film: </label>
+                        <input name="poster" id="affiche" type="file"/> 					
+                    </div>
+                </li>		
+                <li id="Justification" >
+                    <label class="description" >Pourquoi ce film: </label>
+                    <textarea name="why" id="justification" placeholder="Pourquoi?" ng-model="formData.why" required></textarea> 
+                </li>
+                <li id="suggestionDate">
+                    <label class="description"> Date de publication : </label>
+                    <input name="suggestionDate" id="suggestionDate" placeholder="Date:AAAA-MM-JJ" type="text" ng-model="formData.suggestionDate" required/> 
+                </li>
+                <li id="trailer">
+                    <label class="description">La Bande annonce : </label>
+                    <input name="trailer" id="trailer" placeholder="le code aprés embed=" ng-model="formData.trailer" required/>
+                </li>
+                <li id="buttons">
+                    <div id="ButtonsWrapper" >
+                        <input type="hidden" name="form_id" value="955925" />
+                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" />
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
