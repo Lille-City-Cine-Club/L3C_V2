@@ -17,7 +17,8 @@ angular.module('L3C_V2')
 
                     return responseService;
                 }else{
-                    return response.data.data;
+                    console.info(response);
+                    return response;
                 }
             })
             .error(function(response){
