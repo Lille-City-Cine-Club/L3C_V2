@@ -569,6 +569,7 @@ module.exports = function(app){
 
                 response.codeResponse = "ok";
                 response.message = "Bienvenue "+user.name+" !";
+                response.isAdmin = sess.isAdmin;
                 res.send(response);
 
             }
