@@ -55,7 +55,7 @@ angular.module('L3C_V2')
     }
     
     $scope.go = function(path){
-        console.log('salut je suis le go');
+        console.log('salut je suis le go : ' + path );
         $location.path('/suggestion/'+path);
     };
 
