@@ -1,7 +1,7 @@
 <div>
     <div id="olderSuggestionContainer">
         <h1 id="titleOldSuggestion">{{title}}:</h1>
-        <div id="olderSuggestion" ng-repeat="movie in result" ng-click="go('{{movie.title}}')">
+        <div id="olderSuggestion" ng-repeat="movie in result" ng-click="go(movie.title)">
             <img class="posterOlderSuggestion" src="../{{movie.poster}}" alt="{{}}"/>
             <h3 id="titleOlderSuggestion">{{movie.title}}</h3>
             <ul id="recapOlderSuggestion">
