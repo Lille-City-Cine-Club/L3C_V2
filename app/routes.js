@@ -174,6 +174,12 @@ module.exports = function(app){
     //get an older suggestion by its title
     app.get('/suggestion/:title', function(req, res){
 
+        var response = {
+            codeResponse: "",
+            message: "",
+            data: ""
+        };
+
         var suggestionTitle = req.params.title;
 
         movieModel.findOne({'title': suggestionTitle},{}, function(err, movie){
@@ -182,14 +188,49 @@ module.exports = function(app){
                 throw err;
             }
             if(movie){
+                // disable "actors1, undefined ..."
+                var actors = "";
+                for(var i = 0; i<movie.actors.length ; i++){
+                    actors += movie.actors[i]+', ';
+                }
+                // Disable the 'undefined' genre when a movie have less than 3 genre.
+                var genre ="";
+                genre += movie.genre[0];
+                if (typeof movie.genre[1] != 'undefined'){
+                    genre +=", "+movie.genre[1];
+                }
+                if(typeof movie.genre[2] != 'undefined'){
+                    genre +=", "+movie.genre[2];
+                }
 
-                res.send(movie);
+                var duration;
+                if( typeof movie.duration === 'undefined'){
+                    duration = "Un film sans durée :O !";
+                }else{
+                    duration = movie.duration;
+                }
+
+                var movieResult = {
+                    title : movie.title,
+                    actors : actors,
+                    director : movie.director,
+                    genre : genre,
+                    duration : duration,
+                    synopsis : movie.synopsis,
+                    why : movie.why,
+                    poster : movie.poster
+                };
+
+                response.codeResponse = "ok";
+                response.message = "suggestion correctly retreived from DB";
+                response.data = movieResult;
+
+                res.send(response);
+                
             }else{
 
-                var response = {
-                    codeResponse: "ko",
-                    message: "pas de suggestion faite portant ce nom désolé"
-                };
+                response.codeResponse = "ko";
+                response.message = "pas de suggestion faite portant ce nom désolé";
 
                 res.send(response);
             }
