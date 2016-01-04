@@ -12,6 +12,7 @@ var checkForm = require('./controllers/checkForm');
 
 // grabing the middleware we need
 var fs = require('fs');						// to read Files
+var bodyParser = require('body-parser');	// to parse req
 var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
 var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
 var nodemailer = require('nodemailer');		// to send emails
@@ -38,9 +39,15 @@ var successLog = chalk.bold.bgGreen;
 
 module.exports = function(app){
 
+
+
+    //for post request
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended : true}));
+
     // to store img in form (i.e poster)
     var done = false;
-    var posterPath;
+    var posterPath = "/ressources/Poster404.jpg";
     app.use(multer({dest: './public/ressources/poster',
 
                     rename: function(fieldname, filename, req, res){
@@ -150,7 +157,8 @@ module.exports = function(app){
                         duration : duration,
                         synopsis : movie.synopsis,
                         why : movie.why,
-                        poster : movie.poster
+                        poster : movie.poster,
+                        trailer : movie.trailer
                     };
 
 
@@ -226,7 +234,7 @@ module.exports = function(app){
                 response.data = movieResult;
 
                 res.send(response);
-                
+
             }else{
 
                 response.codeResponse = "ko";
@@ -386,33 +394,39 @@ module.exports = function(app){
     app.post('/postContent',function(req,res){
         console.log('posting content...\n');
 
-        var title,director,actors,genre,duration,synopsis,why,publicationDate;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
+        var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
 
         var response = checkForm.checkFormFilm(req);					          // verification du formulaire
-        if(response.codeResponse == "ko"){
+        if(response.codeResponse === "ko"){
             res.send(response);
         }else{
 
+//            console.log('req.body');
+//            console.log(req.body);
+//            console.log('req headers');
+//            console.log(req.headers);
+
             title = req.body.title;
-            director=req.body.director;
+            director = req.body.director;
             actors = req.body.actors.split(', '); 		// transformation of string to array, parsing to ', '
 
             genre = []; 								// creating an array of genre
             genre.push(req.body.genre1);
 
             // Allow a movie to have less than 3 genre
-            if(typeof req.body.genre2 != 'undefined'){
+            if(typeof req.body.genre2 !== 'undefined'){
                 genre.push(req.body.genre2);
             }
-            if(typeof req.body.genre3 != 'undefined'){
+            if(typeof req.body.genre3 !== 'undefined'){
                 genre.push(req.body.genre3);
             }
-            duration = req.body.duree;
-            synopsis=req.body.synopsis;
-            why=req.body.why;
+            duration = req.body.duration;
+            synopsis = req.body.synopsis;
+            why = req.body.why;
             publicationDate = req.body.suggestionDate;
+            trailer = req.body.trailer;
 
-            console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\ndirector: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n');
+            console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\n director: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n trailer: '+trailer);
 
             var movieSchema = {
                 "title":title,
@@ -423,7 +437,8 @@ module.exports = function(app){
                 "poster":posterPath,
                 "duration":duration,
                 "why":why,
-                "suggestionDate":publicationDate
+                "suggestionDate":publicationDate,
+                "trailer":trailer
             };
 
             if(done){										//used with multer to notify the upload sucess

@@ -9,23 +9,16 @@ var express = require('express');			// main FW
 var bodyParser = require('body-parser');	// to parse req
 var fs = require('fs');						// to read Files
 var mongoose = require('mongoose');			// for DB
-var moment = require('moment'); 			// for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
 var session = require('express-session');	// to handle session storage
-var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
-var nodemailer = require('nodemailer');		// to send emails
-var chance = require('chance').Chance();	// to generate random number/strings
-var crypto = require('crypto');				// to generate random strings
-var async = require('async');				// to be able to make async work even easier/better
 var chalk = require('chalk');               // to be able to style log info in the console
 var app = express();
 
 // for the session
 app.use(session({secret:'Hercules Project'}));
 
-
-//for post request
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
+////for post request
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended : true}));
 
 // to render statics files (i.e: img, html etc...)
 app.use(express.static(__dirname + '/public'));
