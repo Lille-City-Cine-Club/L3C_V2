@@ -78,7 +78,16 @@ app.config(function($routeProvider){
     })
         .when('/login',{
         templateUrl: "views/login.html",
-        controller: "LoginController"
+        controller: "LoginController",
+        resolve:{
+            "checkSession": function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(session.data.email){
+                        $location.path('/dashboard');
+                    }                                     
+                });
+            }
+        }
     })
         .when('/about',{
         templateUrl: "views/about.html",
