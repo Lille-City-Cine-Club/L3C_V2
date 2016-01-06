@@ -1,6 +1,8 @@
 angular.module('L3C_V2')
-    .controller('SuggestionController', function($scope, $location, SuggestionService){
+    .controller('SuggestionController', function($scope, $location, $sce, SuggestionService){
 
+    
+    $scope.showingTrailer = false;
 
     SuggestionService.getCurrentSuggestion().then(function(response){
         
@@ -12,4 +14,12 @@ angular.module('L3C_V2')
             $scope.suggestion = $scope.response.data;
         }
     });
+    
+    $scope.showTrailer = function(){
+                
+        $scope.trailerUrl = $sce.trustAsResourceUrl('https://www.youtube.com/embed/'+$scope.suggestion.trailer);
+        $scope.showingTrailer = true;
+                    
+    };
+    
 });
