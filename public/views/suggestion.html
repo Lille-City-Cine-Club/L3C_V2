@@ -2,7 +2,7 @@
     <div class="poster-about">
         <div class="poster">
             <img src="../{{suggestion.poster}}">
-            <div ng-show=suggestion.trailer> La bande annonce !</div>
+            <div ng-show=suggestion.trailer ng-click="showTrailer()"> La bande annonce !</div>
         </div>
         <div class="about_movie">
 
@@ -30,6 +30,12 @@
         </div>
         <div id="div-img">
             <img src="../ressources/img/comingsoon.png">
+        </div>
+    </div>
+    <div id="fadeMe" ng-show="showingTrailer">
+        <div id="videoPlayer">
+            {{suggestion.trailer}}
+            <iframe width="560" height="315" ng-src="{{trailerUrl}}" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 </div>
