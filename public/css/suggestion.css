@@ -69,13 +69,12 @@
     position:fixed;    
 }
 
+
 #videoPlayer {
-    z-index: 1000;
-    text-align: center;
-    position: fixed;
-    opacity:none;
-    filter: alpha(opacity=0);
-    width: auto;
-    height: auto;
+    z-index: 10000;
+    position: absolute;
     margin-top: 10%;
+    top:0;
+    left:50%;
+    margin-left:-326px;
 }
