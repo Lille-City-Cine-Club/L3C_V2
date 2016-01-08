@@ -35,8 +35,8 @@
     <div ng-show="showingTrailer">
         <div id="fadeMe" ng-click="toggleTrailer(true)"></div>
         <div id="videoPlayer">
-            {{suggestion.trailer}}
-            <iframe width="560" height="315" ng-src="{{trailerUrl}}" frameborder="0" allowfullscreen></iframe>
+            <iframe id="trailer" width="560" height="315" ng-src="{{trailerUrl}}" frameborder="0" allowfullscreen></iframe>
+            <img id="closeTrailer" src="../ressources/img/close.png" ng-click="toggleTrailer(true)">
         </div>
     </div>
 </div>

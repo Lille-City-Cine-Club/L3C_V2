@@ -69,12 +69,16 @@
     position:fixed;    
 }
 
-
 #videoPlayer {
     z-index: 10000;
     position: absolute;
     margin-top: 10%;
     top:0;
     left:50%;
-    margin-left:-326px;
+    margin-left:-298px;
+}
+
+#closeTrailer {
+    margin-top:-100%;
+    cursor: pointer;
 }
