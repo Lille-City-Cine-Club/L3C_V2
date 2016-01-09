@@ -58,7 +58,8 @@ module.exports = function(app){
                     },
                     onFileUploadComplete: function(file, req, res){
                         console.log(file.name + ' successfully uploaded to :'+ file.path);
-                        posterPath = file.path;
+                        // to cut off the './public/' part
+                        posterPath = file.path.substring(7);
                         done = true;
                     },
                     onError: function(error, next){
