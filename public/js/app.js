@@ -1,4 +1,4 @@
-var app = angular.module('L3C_V2',['ngRoute', 'ngFileUpload']);
+var app = angular.module('L3C_V2',["ngRoute", 'ngFileUpload', 'ui.bootstrap']);
 
 app.config(function($routeProvider){
 
