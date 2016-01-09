@@ -31,15 +31,11 @@ var mailer = nodemailer.createTransport({
     }
 });
 
-
 // log styles colors for console styling
 var errorLog = chalk.bold.bgRed;
 var successLog = chalk.bold.bgGreen;
 
-
 module.exports = function(app){
-
-
 
     //for post request
     app.use(bodyParser.json());
@@ -71,7 +67,6 @@ module.exports = function(app){
                         next(error);
                     }
                    }));
-
 
     //Suggestion page
     app.get('/suggestion', function(req,res){
