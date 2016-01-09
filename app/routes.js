@@ -47,43 +47,11 @@ module.exports = function(app){
 
     // to store img in form (i.e poster)
     var done = false;
-    var posterPath = "/ressources/Poster404.jpg";
+    var posterPath;
     app.use(multer({dest: './public/ressources/poster',
 
                     rename: function(fieldname, filename, req, res){
-                        // return  fieldname.startsWith("film") ? fieldname : moment().format('YYYY_MM_DD')+'_'+filename ;
-                        /*
-                    console.log('JE SUIS DANS MULTER MOTHERFUCKEEEEERRRRRRRR!!!!');
-                    console.log(fieldname.startsWith("film"));
-					if( fieldname.startsWith("film")){
-                        console.log("poster");
-                        console.log(poster);
-                        testPoster = poster;
-                        console.log("fieldname");
-                        console.log(fieldname);
-                        testFieldname = fieldname;
-						console.log('je suis dans film');
-						return fieldname;
-					}else{
-						console.log('kdjhflkdhfjdhfjdfkjh');
-						return moment().format('YYYY_MM_DD')+'_'+filename;
-					}
-                    */
-                        /*
-                    // remplacement de startsWith car pas encore actif(waiting for ECMAS 6)
-                    if(fieldname.indexOf("film") === 0){
-                        testPoster = "changed!";
-                        testFieldname = "changed!";
-                        return fieldname;
-                    }else{
-                        // pourque l'upload fonctionne sans le if.
-                        return moment().format('YYYY_MM_DD')+"_"+filename;   
-                    }
-                    */
-
-                        // pourque l'upload fonctionne sans le if.
                         return moment().format('YYYY_MM_DD')+"_"+filename;
-
                     },
                     onFileUploadStart: function(file, req, res){
                         console.log(file.name + ' uploading . . .');
@@ -91,11 +59,14 @@ module.exports = function(app){
                     onFileUploadComplete: function(file, req, res){
                         console.log(file.name + ' successfully uploaded to :'+ file.path);
                         posterPath = file.path;
-                        done=true;
+                        done = true;
                     },
                     onError: function(error, next){
                         console.log('Error! Uploading failed! ');
                         console.log(error);
+
+                        // poster par defaut s'il n'yen a pas
+                        posterPath = "/ressources/poster/Poster404.jpg";
                         next(error);
                     }
                    }));
@@ -393,6 +364,9 @@ module.exports = function(app){
     //posting content to DB
     app.post('/postContent',function(req,res){
         console.log('posting content...\n');
+        
+        // to recollect all the data and put them in the body
+        req.body = req.body.data;
 
         var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
 
@@ -401,13 +375,9 @@ module.exports = function(app){
             res.send(response);
         }else{
 
-//            console.log('req.body');
-//            console.log(req.body);
-//            console.log('req headers');
-//            console.log(req.headers);
-
             title = req.body.title;
             director = req.body.director;
+
             actors = req.body.actors.split(', '); 		// transformation of string to array, parsing to ', '
 
             genre = []; 								// creating an array of genre
@@ -441,7 +411,7 @@ module.exports = function(app){
                 "trailer":trailer
             };
 
-            if(done){										//used with multer to notify the upload sucess
+            if(done){										//used with multer to notify the upload success
                 console.log(successLog("uploading files complete!"));
             }
 
