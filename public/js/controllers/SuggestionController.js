@@ -18,14 +18,14 @@ angular.module('L3C_V2')
     $scope.toggleTrailer = function(hide){
 
         if(!hide){
-//            $scope.trailerUrl = $sce.trustAsResourceUrl('https://www.youtube.com/embed/'+$scope.suggestion.trailer+'?enablejsapi=1&autoplay=1');
             $scope.trailerUrl = $sce.trustAsResourceUrl('https://www.youtube.com/embed/'+$scope.suggestion.trailer+'?enablejsapi=1&autoplay=1');
             $scope.showingTrailer = true;
         }else{
             
+            // get iframe + enable stop video when hiding player
             var trailer = angular.element(document.getElementById('trailer'));
-            
             trailer[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+            
             $scope.showingTrailer = false;
         }
     };
