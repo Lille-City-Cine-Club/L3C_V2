@@ -9,14 +9,26 @@
                 <li id="Title" >
                     <label class="description" >Titre: </label>
                     <input name="title" id="title" type="text" maxlength="255" value="" ng-model="formData.title" placeholder="Titre" required/> 
-                </li>		
+                    <span ng-show="formNewSuggestion.title.$error.required && !formNewSuggestion.title.$pristine">
+                        Un titre est nécessaire
+                    </span>
+                </li>
                 <li id="Real" >
                     <label class="description" >Réalisateur: </label>
                     <input name="director" id="realisateur" type="text" maxlength="255" value="" ng-model="formData.director" placeholder="Réalisateur" required/> 
+                    <span ng-show="formNewSuggestion.director.$error.required && !formNewSuggestion.director.$pristine">
+                        Un Réalisateur est nécessaire
+                    </span>
                 </li>		
                 <li id="Acteurs" >
                     <label class="description" >Acteurs: </label>
-                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." required/> 
+                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^[_a-z]+(\,[_a-z]+)*$/" required/>
+                    <span ng-show="formNewSuggestion.actors.$error.required && !formNewSuggestion.actors.$pristine">
+                        Au moins un acteur est nécessaire
+                    </span>
+                    <span ng-show="formNewSuggestion.actors.$error.pattern && !formNewSuggestion.actors.$pristine">
+                        Le format accepté est le suivant: actor1, actor2, ...
+                    </span>
                 </li>		
                 <!-- ComboBox: Genre-->
                 <li id="Genre">
@@ -76,9 +88,18 @@
                         <option value="western">Western</option>
                     </select>
                 </li>
+                <span id="errorGenre" ng-show="formNewSuggestion.genre1.$invalid && !formNewSuggestion.genre1.$pristine">
+                    Il faut au moins sélectionner 1 genre pour le film.
+                </span>
                 <li id="duree">
                     <label class="description"> Durée du Film : </label>
-                    <input name="duree" id="duree" placeholder="Durée du film" type="text" ng-model="formData.duration" required/> 
+                    <input name="duree" id="duree" placeholder="Durée du film" type="text" ng-model="formData.duration" ng-pattern="/^[0-9]{2}h[0-9]{2}$/" required/>
+                    <span ng-show="formNewSuggestion.duree.$invalid && !formNewSuggestion.duree.$pristine">
+                        Il faut au moins préciser la durée du film
+                    </span>
+                    <span ng-show="formNewSuggestion.duree.$error.pattern && !formNewSuggestion.duree.$pristine">
+                        Votre formt n'est pas le bon. [0-9]{2}h[0-9]{2} ;)
+                    </span>
                 </li>
                 <li id="Synopsis" >
                     <label class="description" >Synopsis: </label>
@@ -87,25 +108,40 @@
                 <li id="Affiche" >
                     <div id="affiche-wrapper">
                         <label class="description" id="affiche-description">L'affiche du film: </label>
-                        <input name="poster" id="affiche" type="file"/> 					
+                        <!-- avec ngFileUpload           -->
+                        <input id="affiche" type="file" ngf-select name="poster" ng-model="poster" ngf-accept="'image/*'" ngf-max-size="20MB"/>
+
                     </div>
                 </li>		
                 <li id="Justification" >
                     <label class="description" >Pourquoi ce film: </label>
-                    <textarea name="why" id="justification" placeholder="Pourquoi?" ng-model="formData.why" required></textarea> 
+                    <textarea name="why" id="justification" placeholder="Pourquoi?" ng-model="formData.why" required></textarea>
+                    <span ng-show="formNewSuggestion.why.$invalid && !formNewSuggestion.why.$pristine">
+                        Il faut au moins ne justification pour valider une suggestion
+                    </span>
                 </li>
                 <li id="suggestionDate">
                     <label class="description"> Date de publication : </label>
-                    <input name="suggestionDate" id="suggestionDate" placeholder="Date:AAAA-MM-JJ" type="text" ng-model="formData.suggestionDate" required/> 
+                    <input name="suggestionDate" id="suggestionDate" placeholder="Date:AAAA-MM-JJ" type="text" ng-model="formData.suggestionDate" ng-pattern="/^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/" required/>
+                    <span ng-show="formNewSuggestion.suggestionDate.$invalid && !formNewSuggestion.suggestionDate.$pristine">
+                        Il faut préciser la date de publication de la suggestion
+                    </span>
+                    <span ng-show="formNewSuggestion.suggestionDate.$error.pattern && !formNewSuggestion.suggestionDate.$pristine">
+                        Le format n'est pas le bon. AAAA-MM-DD ;)
+                    </span>
+
                 </li>
                 <li id="trailer">
                     <label class="description">La Bande annonce : </label>
-                    <input name="trailer" id="trailer" placeholder="le code aprés embed=" ng-model="formData.trailer" required/>
+                    <input name="trailer" id="trailer" placeholder="le code aprés watch?v=" ng-model="formData.trailer" required/>
+                    <span ng-show="formNewSuggestion.trailer.$invalid && !formNewSuggestion.trailer.$pristine">
+                        Un lien vers le trailer est nécesaire pour une nouvelle suggestion
+                    </span>
                 </li>
                 <li id="buttons">
                     <div id="ButtonsWrapper" >
                         <input type="hidden" name="form_id" value="955925" />
-                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" />
+                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" ng-disabled="formNewSuggestion.$invalid" />
                     </div>
                 </li>
             </ul>
