@@ -1,4 +1,4 @@
-var app = angular.module('L3C_V2',["ngRoute"]);
+var app = angular.module('L3C_V2',["ngRoute", 'ui.bootstrap']);
 
 app.config(function($routeProvider){
 
