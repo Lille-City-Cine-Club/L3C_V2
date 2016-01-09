@@ -14,7 +14,7 @@ app.config(function($routeProvider){
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
+                        $location.path('/login');
                     }                                     
                 });
             }
@@ -27,7 +27,7 @@ app.config(function($routeProvider){
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
+                        $location.path('/login');
                     }                                     
                 });
             }
@@ -66,7 +66,7 @@ app.config(function($routeProvider){
             "checkSession":function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.isAdmin){
-                        $location.path('/');
+                        $location.path('/404');
                     }                                     
                 });
             }
@@ -74,7 +74,16 @@ app.config(function($routeProvider){
     })
         .when('/inscription',{
         templateUrl: "/views/inscription.html",
-        controller: "InscriptionController"
+        controller: "InscriptionController",
+        resolve:{
+            "checkSession": function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(session.data.email){
+                        $location.path('/dashboard');
+                    }                                     
+                });
+            }
+        }
     })
         .when('/login',{
         templateUrl: "views/login.html",
@@ -84,6 +93,18 @@ app.config(function($routeProvider){
                 SessionService.getCurrentSession().then(function(session){
                     if(session.data.email){
                         $location.path('/dashboard');
+                    }                                     
+                });
+            }
+        }
+    })
+        .when('/logout',{
+        controller: "LogoutController",
+        resolve:{
+            "checkSession": function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(session.data.email){
+                        $location.path('/');
                     }                                     
                 });
             }
@@ -100,7 +121,7 @@ app.config(function($routeProvider){
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
+                        $location.path('/login');
                     }                                     
                 });
             }

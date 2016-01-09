@@ -9,12 +9,11 @@ angular.module('L3C_V2')
         $scope.session = response.data;
 
         if($scope.session.isAdmin){
+            $scope.connected=true;
             $scope.admin = true;
             $scope.title = "Bienvenue, "+ $scope.session.name;
-
-        }else{
-            $scope.title = "Tu n'es qu'un membre, un petit pion!!! Ahahha!!";
         }
+        $scope.title = "Bienvenue, "+ $scope.session.name;
     });
 
     SuggestionService.getCurrentSuggestion().then(function(response){

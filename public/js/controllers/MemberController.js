@@ -8,7 +8,7 @@ angular.module('L3C_V2')
             $scope.member = response.data.data;
 
             if($scope.member.isAdmin){
-                $scope.member.role = "Administrateur de votre site préféré";
+                $scope.member.role = "admin";
             }else{
                 $scope.member.role = "membre";
             }
