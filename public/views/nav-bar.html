@@ -1,0 +1,86 @@
+<script>
+        // for the drop down
+        ( function( $ ) {
+            $( document ).ready(function() {
+                var activeElement = $('#cssmenu>ul>li:first');
+
+                $('#cssmenu>ul>li').each(function() {
+                    if ($(this).hasClass('active')) {
+                        activeElement = $(this);
+                    }
+                });
+
+
+                var posLeft = activeElement.position().left;
+                var elementWidth = activeElement.width();
+                posLeft = posLeft + elementWidth/2 -6;
+                if (activeElement.hasClass('has-sub')) {
+                    posLeft -= 6;
+                }
+
+                $('#cssmenu #pIndicator').css('left', posLeft);
+                var element, leftPos, indicator = $('#cssmenu pIndicator');
+
+                $("#cssmenu>ul>li").hover(function() {
+                    element = $(this);
+                    var w = element.width();
+                    if ($(this).hasClass('has-sub'))
+                    {
+                        leftPos = element.position().left + w/2 - 12;
+                    }
+                    else {
+                        leftPos = element.position().left + w/2 - 6;
+                    }
+
+                    $('#cssmenu #pIndicator').css('left', leftPos);
+                }
+                                          , function() {
+                    $('#cssmenu #pIndicator').css('left', posLeft);
+                });
+
+                $('#cssmenu>ul').prepend('<li id="menu-button"><a>Menu</a></li>');
+                $( "#menu-button" ).click(function(){
+                    if ($(this).parent().hasClass('open')) {
+                        $(this).parent().removeClass('open');
+                    }
+                    else {
+                        $(this).parent().addClass('open');
+                    }
+                });
+            });
+        } )( jQuery );
+
+    </script>
+<!-- logo+site -->
+<div class="logo-nav-wrapper">
+    <!-- Regroupe le logo-->
+    <div class="logo-wrapper">
+        <div class="site-logo">
+            <a ng-href="#/">
+                <img src="../ressources/logo/L3C.jpg" alt="Lille City Cine Club" />
+            </a>
+        </div>
+    </div>
+
+    <div id="cssmenu" >
+        <ul>
+            <li><a id="Seance" ng-href="#/suggestion">Le Film du mois</a></li>
+            <li id="connection"><a id="logIn" ng-href="#/login" ng-hide="connected">Connexion</a></li>
+            <li id="inscription"><a id="logIn" ng-href="#/inscription" ng-hide="connected">Inscription</a></li>
+            <li id="admin" class="active has-sub" ng-show="admin"><a ng-href="#/admin"><span>Administration</span></a>
+                <ul>
+                    <li><a ng-href="#/admin-suggestion"><span>Soumettre un film</span></a></li>
+                    <li><a ng-href="#/admin-carousel"><span>Modifier Carousel</span></a></li>
+                    <li><a ng-href="#/admin-management"> <span> Gérer les Admins</span></a></li>
+                </ul>
+            </li>
+            <li id="member" class="active has-sub" ng-show="connected"><a ng-href="#" ><span>Gérer mon profil</span></a>
+                <ul>
+                    <li><a ng-href="#/changePass"><span>Changer Mot de Passe</span></a></li>
+                    <li ng-click="logout()" class="logoutButton"><a><span>Déconnexion</span></a></li>
+                </ul>
+            </li>
+            <li><a id="about" ng-href="#/about">A propos</a></li>
+        </ul>
+    </div>
+</div>

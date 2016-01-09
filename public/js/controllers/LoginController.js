@@ -1,5 +1,5 @@
 angular.module('L3C_V2')
-    .controller('LoginController', function($scope,$location, LoginService){
+    .controller('LoginController', function($scope,$location,$route, LoginService){
     
     $scope.title = "Login"; 
     $scope.formData = {};

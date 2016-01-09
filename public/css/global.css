@@ -145,17 +145,24 @@ select.ng-dirty.ng-invalid {
 #cssmenu{
     position : absolute ;
     width : 70%;
-    top : -0.8%;
+    left : 44%;
+    top : -1.3%;
     right: 0%;
 }
-
+#inscription{
+    margin-top:3%;
+    margin-right:20%;
+    margin-bottom:5%;
+}
 #cssmenu ul {
     list-style: none;
     padding: 0;
+    padding-left : 20%;
     margin: -5;
     line-height: 1;
     float: left;
-    top : 22px;
+    
+height : 79px;
 }
 #cssmenu > ul {
     position: relative;
@@ -304,6 +311,9 @@ select.ng-dirty.ng-invalid {
 #cssmenu.align-right > ul > li > ul::after {
     left: auto;
     right: 30px;
+}
+.logoutButton{
+    cursor: pointer;
 }
 
 /* -------------------------------------------------------- Footer ------------------------------------------------------------ */

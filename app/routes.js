@@ -377,11 +377,11 @@ module.exports = function(app){
     app.get('/logout', function(req,res){
         req.session.destroy(function(err){
             if(err){
-                console.log(errorLog('Error logout!'));
+                console.log(errorLog('Error logging out!'));
                 console.log(err);
                 throw err;
             }
-            res.redirect('/');
+            res.send("ok");
         });
         /*
         req.logout();

@@ -1,7 +1,6 @@
 angular.module('L3C_V2')
     .service('InscriptionService', function($http){
 
-
     var processInscription = function(data){
         var url = "/newMember";
         var responseService = {

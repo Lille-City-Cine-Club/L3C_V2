@@ -6,23 +6,22 @@ angular.module('L3C_V2')
     var getCurrentSession = function(){
         var session;
         var url = '/whatsMyName';
-        
+
         return $http.get(url)
             .success(function(response){
-            
-                session = response;
-                return session;
-            })
+            session = response;
+            return session;
+        })
             .error(function(response){
-                var responseSession = {
-                    codeResponse: response.status,
-                    message: response.statusText
-                };
-            
-                return responseSession;
-            });
+            var responseSession = {
+                codeResponse: response.status,
+                message: response.statusText
+            };
+
+            return responseSession;
+        });
     };
-             
+
     return {
         getCurrentSession : getCurrentSession
     };

@@ -1,16 +1,35 @@
 angular.module('L3C_V2')
-    .controller('NavbarController',function($scope, SessionService){
+    .controller('NavBarController', function($scope, $location, SessionService, LoginService){
 
-    var session = SessionService.getCurrentSession();
-        
-    if(session.email){
-        $scope.connected = true;
-        if(session.isAdmin){
-            $scope.admin = true;
+    SessionService.getCurrentSession().then(function(response){
+
+        $scope.session = response.data;
+
+        if($scope.session.email){
+            $scope.connected = true;
+
+            if($scope.session.isAdmin){
+                $scope.admin = true;
+            }else{
+                $scope.admin = false;
+            }
         }else{
-            $scope.admin = false;
+            $scope.connected = false
         }
-    }else{
-        $scope.connected = false;
+    });
+
+    $scope.logout=function(){
+        LoginService.processLogout().then(function(){
+            $location.path('/');
+        });
     }
+
+})
+    .directive('navBar',function(){
+
+    return{
+        controller: "NavBarController",
+        templateUrl: 'views/nav-bar.html'
+    };
+
 });
