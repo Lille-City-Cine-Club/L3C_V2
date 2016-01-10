@@ -28,7 +28,7 @@
 #synopsisOlderSuggestion{
     margin-top:-5px; 
     width: 285px;
-    height:90px;
+    height:20%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
