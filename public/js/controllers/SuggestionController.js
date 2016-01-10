@@ -5,7 +5,6 @@ angular.module('L3C_V2')
     $scope.showingTrailer = false;
 
     SuggestionService.getCurrentSuggestion().then(function(response){
-
         $scope.response = response.data;
 
         if($scope.response.codeResponse === "ko"){

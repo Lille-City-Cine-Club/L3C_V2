@@ -157,12 +157,11 @@ select.ng-dirty.ng-invalid {
 
 .btn-primary{
     background-color : #171717;
-    border-color : #171717;
+    border : none;
 }
 .btn-primary:hover{
     background-color : #3F4040;
-    border-color : #FAF5F5;
-    border : 0;
+    border : none;
 }
 
 /* -------------------------------------------------------- Footer ------------------------------------------------------------ */

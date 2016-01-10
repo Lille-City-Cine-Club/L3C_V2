@@ -12,10 +12,11 @@ app.config(function($routeProvider){
         controller: "SuggestionController",
         resolve:{
             "checkSession": function($location, SessionService){
+                console.log('vérification depuis suggestion');
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
                         $location.path('/login');
-                    }                                     
+                    }                           
                 });
             }
         }
@@ -93,18 +94,6 @@ app.config(function($routeProvider){
                 SessionService.getCurrentSession().then(function(session){
                     if(session.data.email){
                         $location.path('/dashboard');
-                    }                                     
-                });
-            }
-        }
-    })
-        .when('/logout',{
-        controller: "LogoutController",
-        resolve:{
-            "checkSession": function($location, SessionService){
-                SessionService.getCurrentSession().then(function(session){
-                    if(session.data.email){
-                        $location.path('/');
                     }                                     
                 });
             }
