@@ -8,6 +8,12 @@
                 <li id="PseudoLogin">
                     <label class="description"> E-Mail : </label>
                     <input name="pseudoLogin" id="pseudoLogin" maxlength="255" type="email" value="" ng-model="formData.email" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" placeholder="Votre mail" required/>
+                    <span ng-show="loginForm.pseudoLogin.$error.required && !loginForm.pseudoLogin.$pristine">
+                        Un email est nécessaire
+                    </span>
+                    <span ng-show="loginForm.pseudoLogin.$error.pattern && !loginForm.pseudoLogin.$pristine">
+                        Un email valide est necessaire
+                    </span>
                 </li>
                 <li id="PasswordLogin">
                     <label class="description"> Mot de passe : </label>
@@ -15,6 +21,10 @@
                     <a  ng-href="#/forgottenPass" >
                         <span id="forgottenMdp" class="glyphicon glyphicon-question-sign" style="font-size:18px; float:right; padding-right:70px; padding-top:10px; color:black;" title="Mot de passe oublié ?"></span>
                     </a>
+                    <span ng-show="loginForm.passwordLogin.$error.required && !loginForm.passwordLogin.$pristine">
+                        Un mot de passe est nécessaire
+                    </span>
+
                 </li>
                 <li>
                     <div id="ButtonsWrapper" >
