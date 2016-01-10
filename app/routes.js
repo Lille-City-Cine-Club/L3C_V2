@@ -228,7 +228,7 @@ module.exports = function(app){
 
         if(session.email){
             var currentDate = moment();
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},function(err, result){
+            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
                     console.log('Error retreiving all the suggestions !!');
                     throw err;
@@ -259,7 +259,7 @@ module.exports = function(app){
 
             var date = req.params.date;
             var currentDate = moment(date);
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},function(err, result){
+            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
                     console.log('Error retreiving all the suggestions !!');
                     throw err;
