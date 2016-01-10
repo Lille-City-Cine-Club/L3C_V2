@@ -20,7 +20,7 @@
             <img class="posterSuggestionDashboard" src="../{{penultimateSuggestion.poster}}" alt="Nos anciennes suggestions"/>
             <h3>Nos anciennes suggestions</h3>
             <ul id="recapOldSuggestionDashboard">
-                <li ng-repeat="movie in movies">{{movie.title}}</li>
+                <li ng-repeat="movie in movies | limitTo:4">{{movie.title}}</li>
                 <li> . . .</li>
             </ul>
             <p id="clickForMore">C'est par ici! </p>
