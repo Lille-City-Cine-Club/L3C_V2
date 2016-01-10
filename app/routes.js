@@ -87,7 +87,10 @@ module.exports = function(app){
 
         }else{
             if(sess.email){
-                movieModel.findOne({},{},{sort:{date:-1}},function(err,movie){
+                
+                var currentDate = moment().format('YYYY-MM-DD');
+                    
+                movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
                     if(err){
                         console.log(app.errorLog('Error find!'));
                         throw err;
