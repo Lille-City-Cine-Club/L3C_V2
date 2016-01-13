@@ -34,6 +34,7 @@ var mailer = nodemailer.createTransport({
 // log styles colors for console styling
 var errorLog = chalk.bold.bgRed;
 var successLog = chalk.bold.bgGreen;
+var infoLog = chalk.bold.bgBlue.white;
 
 module.exports = function(app){
 
@@ -50,16 +51,16 @@ module.exports = function(app){
                         return moment().format('YYYY_MM_DD')+"_"+filename;
                     },
                     onFileUploadStart: function(file, req, res){
-                        console.log(file.name + ' uploading . . .');
+                        console.log(infoLog(file.name + ' uploading . . .'));
                     },
                     onFileUploadComplete: function(file, req, res){
-                        console.log(file.name + ' successfully uploaded to :'+ file.path);
+                        console.log(infoLog(file.name + ' successfully uploaded to :'+ file.path));
                         // to cut off the './public/' part
                         posterPath = file.path.substring(7);
                         done = true;
                     },
                     onError: function(error, next){
-                        console.log('Error! Uploading failed! ');
+                        console.log(errorLog('Error! Uploading failed!'));
                         console.log(error);
 
                         // poster par defaut s'il n'yen a pas
@@ -92,10 +93,10 @@ module.exports = function(app){
                     
                 movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
                     if(err){
-                        console.log(app.errorLog('Error find!'));
+                        console.log(errorLog('Error find!'));
                         throw err;
                     }
-                    console.log('\nSuggestion Loaded! Movie: '+ movie.title +'\n');
+                    console.log(infoLog('\nSuggestion Loaded! Movie: '+ movie.title +'\n'));
 
                     // disable "actors1, undefined ..."
                     var actors = "";
@@ -162,7 +163,7 @@ module.exports = function(app){
 
         movieModel.findOne({'title': suggestionTitle},{}, function(err, movie){
             if(err){
-                console.log('ERROR RETREIVING SUGGESTION BY TITLE');
+                console.log(errorLog('ERROR RETREIVING SUGGESTION BY TITLE'));
                 throw err;
             }
             if(movie){
@@ -230,7 +231,7 @@ module.exports = function(app){
             var currentDate = moment();
             movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
-                    console.log('Error retreiving all the suggestions !!');
+                    console.log(errorLog('Error retreiving all the suggestions !!'));
                     throw err;
                 }
 
@@ -261,7 +262,7 @@ module.exports = function(app){
             var currentDate = moment(date);
             movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
-                    console.log('Error retreiving all the suggestions !!');
+                    console.log(errorLog('Error retreiving all the suggestions !!'));
                     throw err;
                 }
                 res.send(result);
@@ -287,7 +288,7 @@ module.exports = function(app){
         userModel.findOne({'name': pseudoMember}, {}, function(err, member){
 
             if(err){
-                console.error('ERROR RETREIVING MEMBER'+ pseudoMember);
+                console.error(errorLog('ERROR RETREIVING MEMBER'+ pseudoMember));
                 throw err;
             }
 
@@ -362,7 +363,7 @@ module.exports = function(app){
 
     //posting content to DB
     app.post('/postContent',function(req,res){
-        console.log('posting content...\n');
+        console.log(infoLog('posting content...\n'));
         
         // to recollect all the data and put them in the body
         req.body = req.body.data;
@@ -421,7 +422,7 @@ module.exports = function(app){
                     console.log(errorLog('Error saving movie!'));
                     throw err;
                 }
-                console.log('movie added!\n');
+                console.log(successLog('movie added!\n'));
                 res.send(response);
             });
         }
@@ -429,7 +430,7 @@ module.exports = function(app){
 
     // Adding new member into DB
     app.post('/newMember', function(req,res){
-        console.log('Adding new member...');
+        console.log(infoLog('Adding new member...'));
 
         var pseudo,mail,password,genre,description,response;
 
@@ -475,12 +476,12 @@ module.exports = function(app){
                         console.log(errorLog('Error saving new member!!'));
                         throw err;
                     }
-                    console.log('New member '+user.name+' added!!');
+                    console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
                     fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
                         if(err){
-                            console.log('Welcome mail not found!');
+                            console.log(errorLog('Welcome mail not found!'));
                             throw err;
                         }
 
@@ -495,7 +496,7 @@ module.exports = function(app){
                                 console.log(errorLog("\nNew member: Error Sending mail!"));
                                 throw err;
                             }
-                            console.log('\nMessage successfully sent! Message:'+ mail.response);
+                            console.log(successLog('\nMessage successfully sent! Message:'+ mail.response));
                         });
                     });
 
