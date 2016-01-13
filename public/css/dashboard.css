@@ -44,7 +44,7 @@
 #synopsisSuggestionDashboard{
     margin-top:-10px; 
     width: 285px;
-    height:90px;
+    height:20%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
