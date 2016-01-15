@@ -73,6 +73,19 @@ app.config(function($routeProvider){
             }
         }
     })
+        .when('/modifSuggestion', {
+        templateUrl: "/views/newSuggestion.html",
+        controller: "ModifSuggestion",
+        resolve: {
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                   if(!session.data.isAdmin){
+                       $location.path('/404');
+                   } 
+                });
+            }
+        }
+    })
         .when('/inscription',{
         templateUrl: "/views/inscription.html",
         controller: "InscriptionController",
