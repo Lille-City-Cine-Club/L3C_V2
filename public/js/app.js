@@ -75,7 +75,7 @@ app.config(function($routeProvider){
     })
         .when('/modifSuggestion', {
         templateUrl: "/views/newSuggestion.html",
-        controller: "ModifSuggestion",
+        controller: "ModifSuggestionController",
         resolve: {
             "checkSession":function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
