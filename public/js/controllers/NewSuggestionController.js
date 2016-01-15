@@ -1,6 +1,7 @@
 angular.module('L3C_V2')
     .controller('NewSuggestionController', function($scope, $timeout, SuggestionService){
 
+    $scope.title = "Ajouter un film";
     $scope.formData = {};
 
     var reset = angular.copy($scope.formData);
