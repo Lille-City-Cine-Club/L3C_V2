@@ -88,9 +88,9 @@ module.exports = function(app){
 
         }else{
             if(sess.email){
-                
+
                 var currentDate = moment().format('YYYY-MM-DD');
-                    
+
                 movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
                     if(err){
                         console.log(errorLog('Error find!'));
@@ -129,9 +129,9 @@ module.exports = function(app){
                         synopsis : movie.synopsis,
                         why : movie.why,
                         poster : movie.poster,
-                        trailer : movie.trailer
+                        trailer : movie.trailer,
+                        publicationDate : moment(movie.suggestionDate).format("YYYY-MM-DD")
                     };
-
 
                     response.codeResponse = "ok";
                     response.message = "suggestion correctly retreived from DB";
@@ -197,9 +197,11 @@ module.exports = function(app){
                     duration : duration,
                     synopsis : movie.synopsis,
                     why : movie.why,
-                    poster : movie.poster
+                    poster : movie.poster,
+                    trailer : movie.trailer,
+                    publicationDate : moment(movie.suggestionDate, "YYYY-MM-DD")
                 };
-
+                
                 response.codeResponse = "ok";
                 response.message = "suggestion correctly retreived from DB";
                 response.data = movieResult;
@@ -364,7 +366,7 @@ module.exports = function(app){
     //posting content to DB
     app.post('/postContent',function(req,res){
         console.log(infoLog('posting content...\n'));
-        
+
         // to recollect all the data and put them in the body
         req.body = req.body.data;
 
