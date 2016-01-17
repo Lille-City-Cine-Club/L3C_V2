@@ -18,8 +18,8 @@
             </button>
             <ul uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
                 <li role="menuitem"><a ng-href="#/admin-suggestion">Soumettre un film</a></li>
-                <li role="menuitem"><a ng-href="#/admin-carousel">Modifier carousel</a></li>
-                <li role="menuitem"><a ng-href="#/admin-management">Gérer les admins</a></li>
+                <!--                <li role="menuitem"><a ng-href="#/admin-carousel">Modifier carousel</a></li>-->
+                <!--                <li role="menuitem"><a ng-href="#/admin-management">Gérer les admins</a></li>-->
             </ul>
         </div>
         <div class="btn-group" uib-dropdown dropdown-append-to-body ng-show="connected">
@@ -27,7 +27,9 @@
                 Gérer mon profil <span class="caret"></span>
             </button>
             <ul uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-                <li role="menuitem"><a ng-href="#/changePass">Changer mon mot de passe</a></li>
+                <li role="menuitem"><a ng-href="#/member/{{session.name}}">Mon profil</a></li>
+                <li role="menuitem"><a ng-href="#/dashboard">Mon dashboard</a></li>
+                <!--                <li role="menuitem"><a ng-href="#/changePass">Changer mon mot de passe</a></li>-->
                 <li role="menuitem" ng-click="logout()"><a>Déconnexion</a></li>
             </ul>
         </div>
