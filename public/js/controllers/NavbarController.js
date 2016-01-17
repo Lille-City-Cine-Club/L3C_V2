@@ -1,5 +1,5 @@
 angular.module('L3C_V2')
-    .controller('NavBarController', function($scope, $location, SessionService, $route, LoginService){
+    .controller('NavBarController', function($scope, $location, $route, SessionService, LoginService){
 
     SessionService.getCurrentSession().then(function(response){
 
@@ -18,10 +18,10 @@ angular.module('L3C_V2')
         }
     });
 
-    $scope.logout=function(){
+    $scope.logout = function(){
         LoginService.processLogout().then(function(){
             $location.path('/');
-            $route.reload();
+            //$route.reload();
         });
     }
 
