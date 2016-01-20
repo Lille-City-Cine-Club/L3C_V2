@@ -79,9 +79,9 @@ app.config(function($routeProvider){
         resolve: {
             "checkSession":function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
-                   if(!session.data.isAdmin){
-                       $location.path('/404');
-                   } 
+                    if(!session.data.isAdmin){
+                        $location.path('/404');
+                    } 
                 });
             }
         }
@@ -95,6 +95,19 @@ app.config(function($routeProvider){
                     if(session.data.email){
                         $location.path('/dashboard');
                     }                                     
+                });
+            }
+        }
+    })
+        .when('/modifProfile', {
+        templateUrl: "views/inscription.html",
+        controller: "ModifprofileController",
+        resolve: {
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(!session.data.isAdmin){
+                        $location.path('/404');
+                    } 
                 });
             }
         }
