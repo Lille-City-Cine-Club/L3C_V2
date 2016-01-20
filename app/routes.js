@@ -201,7 +201,7 @@ module.exports = function(app){
                     trailer : movie.trailer,
                     publicationDate : moment(movie.suggestionDate, "YYYY-MM-DD")
                 };
-                
+
                 response.codeResponse = "ok";
                 response.message = "suggestion correctly retreived from DB";
                 response.data = movieResult;
@@ -273,6 +273,35 @@ module.exports = function(app){
 
             response.codeResponse = "ko";
             response.message = "Seul les membres connectés peuvent acceder aux suggestions passées.";
+
+            res.send(response);
+        }
+    });
+
+    app.get('/userInfo', function(req, res){
+
+        var response = {
+            codeResponse: "",
+            message: ""
+        };
+
+        var session = req.session; 
+
+        if(session.email){
+            
+            userModel.findOne({'email': session.email},{},{}, function(err, result){
+                if(err){
+                    console.log(errorLog('Error retreiving user info!!'));
+                    throw err;
+                }
+                
+                res.send(result);
+            });
+
+        }else{
+
+            response.codeResponse = "ko";
+            response.message = "Seul les membres connectés peuvent acceder à leurs informations";
 
             res.send(response);
         }
