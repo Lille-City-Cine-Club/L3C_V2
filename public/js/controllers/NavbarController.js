@@ -14,7 +14,7 @@ angular.module('L3C_V2')
                 $scope.admin = false;
             }
         }else{
-            $scope.connected = false
+            $scope.connected = false;
         }
     });
 
@@ -23,7 +23,7 @@ angular.module('L3C_V2')
             $location.path('/');
             //$route.reload();
         });
-    }
+    };
 
 })
     .directive('navBar',function(){

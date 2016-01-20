@@ -19,7 +19,7 @@ angular.module('L3C_V2')
                 };
             
                 return memberError;
-            })
+            });
     };
     
     return {

@@ -59,7 +59,7 @@ angular.module('L3C_V2')
             var responseSuggestion = {
                 codeResponse : response.status,
                 message : response.statusText
-            }
+            };
 
             allSuggestion = responseSuggestion;            
             return allSuggestion;
@@ -78,25 +78,25 @@ angular.module('L3C_V2')
             return suggestion;
         })
             .error(function(response){
-            var response = {
+            var responseSuggestion = {
                 codeResponse: "ko",
                 message: "error retreiving data from web services"
-            }
+            };
 
             return response;
-        })
+        });
     };
 
     var setSuggestion = function(suggestion, file){
 
         var url = "/postContent";
-        var data = new FormData();
+        var suggestionData = new FormData();
 
-        angular.copy(suggestion , data);
+        angular.copy(suggestion , suggestionData);
 
         return Upload.upload({
             url: url,
-            data: {file: file, data}
+            data: {file: file, suggestionData}
         }).then(function (response) {
             return response;
             //            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.data);
