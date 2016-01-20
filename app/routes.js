@@ -106,10 +106,10 @@ module.exports = function(app){
                     // Disable the 'undefined' genre when a movie have less than 3 genre.
                     var genre ="";
                     genre += movie.genre[0];
-                    if (typeof movie.genre[1] != 'undefined'){
+                    if (typeof movie.genre[1] !== 'undefined'){
                         genre +=", "+movie.genre[1];
                     }
-                    if(typeof movie.genre[2] != 'undefined'){
+                    if(typeof movie.genre[2] !== 'undefined'){
                         genre +=", "+movie.genre[2];
                     }
 
@@ -175,10 +175,10 @@ module.exports = function(app){
                 // Disable the 'undefined' genre when a movie have less than 3 genre.
                 var genre ="";
                 genre += movie.genre[0];
-                if (typeof movie.genre[1] != 'undefined'){
+                if (typeof movie.genre[1] !== 'undefined'){
                     genre +=", "+movie.genre[1];
                 }
-                if(typeof movie.genre[2] != 'undefined'){
+                if(typeof movie.genre[2] !== 'undefined'){
                     genre +=", "+movie.genre[2];
                 }
 
@@ -467,7 +467,7 @@ module.exports = function(app){
 
         checkForm.checkFormMember(req, function(err, response) {
 
-            if(response.codeResponse == "ko"){
+            if(response.codeResponse === "ko"){
                 console.log(errorLog("Adding newMember failed! form wasn't valid."));
                 res.send(response);
             }else{
@@ -673,7 +673,7 @@ module.exports = function(app){
         var response = checkFormMdp(req);
         var sess = req.session;
 
-        if(response.codeResponse == "ok"){
+        if(response.codeResponse === "ok"){
             userModel.findOne({"email":sess.email},{},function(err,user){
                 if(err){
                     console.log(errorLog('Error login! User not found!'));
