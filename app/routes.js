@@ -82,7 +82,7 @@ module.exports = function(app){
         if(typeof sess === "undefined"){
 
             response.codeResponse = "ko";
-            response.message = "pas de session detecté, retour vers l'acceuil";
+            response.message = "pas de session detectée, retour vers l'accueil";
 
             res.send(response);            
 
