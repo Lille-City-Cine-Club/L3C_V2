@@ -24,7 +24,7 @@ var checkFormMember = function(req, cb){
 
                 if ( !checkRequired(req.body, key, cb) ) return;
             }
-            if(req.body.password != req.body.confirmPass){
+            if(req.body.password !== req.body.confirmPass){
                 response.codeResponse = "ko";
                 response.message = "Les champs MOT DE PASSE et CONFIRMATION doivent être IDENTIQUES !";
                 cb( null, response );

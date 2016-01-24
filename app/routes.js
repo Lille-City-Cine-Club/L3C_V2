@@ -104,7 +104,7 @@ module.exports = function(app){
                         actors += movie.actors[i]+', ';
                     }
                     // Disable the 'undefined' genre when a movie have less than 3 genre.
-                    var genre ="";
+                    var genre = "";
                     genre += movie.genre[0];
                     if (typeof movie.genre[1] !== 'undefined'){
                         genre +=", "+movie.genre[1];
@@ -312,7 +312,7 @@ module.exports = function(app){
 
         var response = {
             codeResponse: "",
-            message: "",
+            message: ""
         };
 
         var pseudoMember = req.params.pseudo;
@@ -466,6 +466,11 @@ module.exports = function(app){
         var pseudo,mail,password,genre,description,response;
 
         checkForm.checkFormMember(req, function(err, response) {
+            
+            if(err){
+                console.log(errorLog('ERROR CHECKING FORM MEMBER!!!!'));
+                throw err;
+            }
 
             if(response.codeResponse === "ko"){
                 console.log(errorLog("Adding newMember failed! form wasn't valid."));
@@ -510,7 +515,8 @@ module.exports = function(app){
                     console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
-                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
+//                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
+                    fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
                         if(err){
                             console.log(errorLog('Welcome mail not found!'));
                             throw err;
