@@ -10,16 +10,25 @@
     font-weight : bold;
 }
 
-#currentSuggestionDashboard{
+.dashboardCardLeft{
     border: 2px solid black;
     float: left;
     margin-left: 10%;
-    margin-top: 5%;
+    margin-top: 1%;
+    margin-bottom: 2.5%;
     width: 35%;
     height: 50%;
+    cursor: pointer;
 }
-#currentSuggestionDashboard:hover{
-    cursor:pointer;
+.dashboardCardRight{
+    border: 2px solid black;
+    float: right;
+    margin-right: 10%;
+    margin-top: 1%;
+    margin-bottom: 2.5%;
+    width: 35%;
+    height: 50%;
+    cursor: pointer;
 }
 
 .posterSuggestionDashboard{
@@ -28,31 +37,16 @@
     padding: 2%;
 }
 
-#recapSuggestionDashboard{
+#recapSuggestionDashboard, #recapOldSuggestionDashboard {
     list-style-type: none;
 }
 
 #synopsisSuggestionDashboard{
     margin-top:-10px; 
     width: 285px;
-    height:90px;
+    height:20%;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-#olderSuggestionDashboard{
-    border: 2px solid black;
-    float: right;
-    margin-right: 10%;
-    margin-top: 5%;
-    width: 35%;
-    height: 50%;
-    cursor: pointer;
-}
-
-#recapOldSuggestionDashboard{
-    margin-top: 5%;
-    margin-bottom: 5%;
 }
 
 #clickForMore{

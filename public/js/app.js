@@ -1,4 +1,4 @@
-var app = angular.module('L3C_V2',["ngRoute"]);
+var app = angular.module('L3C_V2',["ngRoute", 'ngFileUpload', 'ui.bootstrap']);
 
 app.config(function($routeProvider){
 
@@ -12,10 +12,11 @@ app.config(function($routeProvider){
         controller: "SuggestionController",
         resolve:{
             "checkSession": function($location, SessionService){
+                console.log('vérification depuis suggestion');
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
-                    }                                     
+                        $location.path('/login');
+                    }                           
                 });
             }
         }
@@ -27,7 +28,7 @@ app.config(function($routeProvider){
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
+                        $location.path('/login');
                     }                                     
                 });
             }
@@ -59,13 +60,70 @@ app.config(function($routeProvider){
             }
         }
     })
+        .when('/newSuggestion', {
+        templateUrl: "/views/newSuggestion.html",
+        controller: "NewSuggestionController",
+        resolve:{
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(!session.data.isAdmin){
+                        $location.path('/404');
+                    }                                     
+                });
+            }
+        }
+    })
+        .when('/modifSuggestion', {
+        templateUrl: "/views/newSuggestion.html",
+        controller: "ModifSuggestionController",
+        resolve: {
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(!session.data.isAdmin){
+                        $location.path('/404');
+                    } 
+                });
+            }
+        }
+    })
         .when('/inscription',{
         templateUrl: "/views/inscription.html",
-        controller: "InscriptionController"
+        controller: "InscriptionController",
+        resolve:{
+            "checkSession": function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(session.data.email){
+                        $location.path('/dashboard');
+                    }                                     
+                });
+            }
+        }
+    })
+        .when('/modifProfile', {
+        templateUrl: "views/inscription.html",
+        controller: "ModifprofileController",
+        resolve: {
+            "checkSession":function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(!session.data.isAdmin){
+                        $location.path('/404');
+                    } 
+                });
+            }
+        }
     })
         .when('/login',{
         templateUrl: "views/login.html",
-        controller: "LoginController"
+        controller: "LoginController",
+        resolve:{
+            "checkSession": function($location, SessionService){
+                SessionService.getCurrentSession().then(function(session){
+                    if(session.data.email){
+                        $location.path('/dashboard');
+                    }                                     
+                });
+            }
+        }
     })
         .when('/about',{
         templateUrl: "views/about.html",
@@ -78,7 +136,7 @@ app.config(function($routeProvider){
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
                     if(!session.data.email){
-                        $location.path('/');
+                        $location.path('/login');
                     }                                     
                 });
             }

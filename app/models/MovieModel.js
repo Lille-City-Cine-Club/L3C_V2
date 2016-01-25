@@ -15,7 +15,8 @@ var movieSchema = new Schema({
 	duration: String,
 	why: String,
 	date: {type:Date, default:Date.now},
-	suggestionDate : Date
+	suggestionDate : Date,
+    trailer : String
 });
 
 var movieModel;

@@ -12,11 +12,14 @@ var checkForm = require('./controllers/checkForm');
 
 // grabing the middleware we need
 var fs = require('fs');						// to read Files
+var bodyParser = require('body-parser');	// to parse req
 var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
 var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
 var nodemailer = require('nodemailer');		// to send emails
 var chance = require('chance').Chance();	// to generate random number/strings
 var crypto = require('crypto');				// to generate random strings
+var chalk = require('chalk');               // to be able to style log info in the console
+var multer = require('multer');				// for receiving multipart form
 
 
 // for sending mails
@@ -28,8 +31,43 @@ var mailer = nodemailer.createTransport({
     }
 });
 
+// log styles colors for console styling
+var errorLog = chalk.bold.bgRed;
+var successLog = chalk.bold.bgGreen;
+var infoLog = chalk.bold.bgBlue.white;
 
 module.exports = function(app){
+
+    //for post request
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended : true}));
+
+    // to store img in form (i.e poster)
+    var done = false;
+    var posterPath;
+    app.use(multer({dest: './public/ressources/poster',
+
+                    rename: function(fieldname, filename, req, res){
+                        return moment().format('YYYY_MM_DD')+"_"+filename;
+                    },
+                    onFileUploadStart: function(file, req, res){
+                        console.log(infoLog(file.name + ' uploading . . .'));
+                    },
+                    onFileUploadComplete: function(file, req, res){
+                        console.log(infoLog(file.name + ' successfully uploaded to :'+ file.path));
+                        // to cut off the './public/' part
+                        posterPath = file.path.substring(7);
+                        done = true;
+                    },
+                    onError: function(error, next){
+                        console.log(errorLog('Error! Uploading failed!'));
+                        console.log(error);
+
+                        // poster par defaut s'il n'yen a pas
+                        posterPath = "/ressources/poster/Poster404.jpg";
+                        next(error);
+                    }
+                   }));
 
     //Suggestion page
     app.get('/suggestion', function(req,res){
@@ -44,18 +82,21 @@ module.exports = function(app){
         if(typeof sess === "undefined"){
 
             response.codeResponse = "ko";
-            response.message = "pas de session detecté, retour vers l'acceuil";
+            response.message = "pas de session detectée, retour vers l'accueil";
 
             res.send(response);            
 
         }else{
             if(sess.email){
-                movieModel.findOne({},{},{sort:{date:-1}},function(err,movie){
+
+                var currentDate = moment().format('YYYY-MM-DD');
+
+                movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
                     if(err){
-                        console.log(app.errorLog('Error find!'));
+                        console.log(errorLog('Error find!'));
                         throw err;
                     }
-                    console.log('\nSuggestion Loaded! Movie: '+ movie.title +'\n');
+                    console.log(infoLog('\nSuggestion Loaded! Movie: '+ movie.title +'\n'));
 
                     // disable "actors1, undefined ..."
                     var actors = "";
@@ -63,12 +104,12 @@ module.exports = function(app){
                         actors += movie.actors[i]+', ';
                     }
                     // Disable the 'undefined' genre when a movie have less than 3 genre.
-                    var genre ="";
+                    var genre = "";
                     genre += movie.genre[0];
-                    if (typeof movie.genre[1] != 'undefined'){
+                    if (typeof movie.genre[1] !== 'undefined'){
                         genre +=", "+movie.genre[1];
                     }
-                    if(typeof movie.genre[2] != 'undefined'){
+                    if(typeof movie.genre[2] !== 'undefined'){
                         genre +=", "+movie.genre[2];
                     }
 
@@ -87,9 +128,10 @@ module.exports = function(app){
                         duration : duration,
                         synopsis : movie.synopsis,
                         why : movie.why,
-                        poster : movie.poster
+                        poster : movie.poster,
+                        trailer : movie.trailer,
+                        publicationDate : moment(movie.suggestionDate).format("YYYY-MM-DD")
                     };
-
 
                     response.codeResponse = "ok";
                     response.message = "suggestion correctly retreived from DB";
@@ -111,23 +153,66 @@ module.exports = function(app){
     //get an older suggestion by its title
     app.get('/suggestion/:title', function(req, res){
 
+        var response = {
+            codeResponse: "",
+            message: "",
+            data: ""
+        };
+
         var suggestionTitle = req.params.title;
 
         movieModel.findOne({'title': suggestionTitle},{}, function(err, movie){
             if(err){
-                console.log('ERROR RETREIVING SUGGESTION BY TITLE');
+                console.log(errorLog('ERROR RETREIVING SUGGESTION BY TITLE'));
                 throw err;
             }
             if(movie){
-                
-                res.send(movie);
-            }else{
-                
-                var response = {
-                    codeResponse: "ko",
-                    message: "pas de suggestion faite portant ce nom désolé"
+                // disable "actors1, undefined ..."
+                var actors = "";
+                for(var i = 0; i<movie.actors.length ; i++){
+                    actors += movie.actors[i]+', ';
+                }
+                // Disable the 'undefined' genre when a movie have less than 3 genre.
+                var genre ="";
+                genre += movie.genre[0];
+                if (typeof movie.genre[1] !== 'undefined'){
+                    genre +=", "+movie.genre[1];
+                }
+                if(typeof movie.genre[2] !== 'undefined'){
+                    genre +=", "+movie.genre[2];
+                }
+
+                var duration;
+                if( typeof movie.duration === 'undefined'){
+                    duration = "Un film sans durée :O !";
+                }else{
+                    duration = movie.duration;
+                }
+
+                var movieResult = {
+                    title : movie.title,
+                    actors : actors,
+                    director : movie.director,
+                    genre : genre,
+                    duration : duration,
+                    synopsis : movie.synopsis,
+                    why : movie.why,
+                    poster : movie.poster,
+                    trailer : movie.trailer,
+                    publicationDate : moment(movie.suggestionDate, "YYYY-MM-DD")
                 };
-                
+
+                response.codeResponse = "ok";
+                response.message = "suggestion correctly retreived from DB";
+                response.data = movieResult;
+
+                res.send(response);
+
+            }else{
+
+                response.codeResponse = "ko";
+                response.message = "pas de suggestion faite portant ce nom désolé";
+
                 res.send(response);
             }
         });
@@ -146,9 +231,9 @@ module.exports = function(app){
 
         if(session.email){
             var currentDate = moment();
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},function(err, result){
+            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
-                    console.log('Error retreiving all the suggestions !!');
+                    console.log(errorLog('Error retreiving all the suggestions !!'));
                     throw err;
                 }
 
@@ -177,9 +262,9 @@ module.exports = function(app){
 
             var date = req.params.date;
             var currentDate = moment(date);
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},function(err, result){
+            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
                 if(err){
-                    console.log('Error retreiving all the suggestions !!');
+                    console.log(errorLog('Error retreiving all the suggestions !!'));
                     throw err;
                 }
                 res.send(result);
@@ -193,19 +278,48 @@ module.exports = function(app){
         }
     });
 
+    app.get('/userInfo', function(req, res){
+
+        var response = {
+            codeResponse: "",
+            message: ""
+        };
+
+        var session = req.session; 
+
+        if(session.email){
+            
+            userModel.findOne({'email': session.email},{},{}, function(err, result){
+                if(err){
+                    console.log(errorLog('Error retreiving user info!!'));
+                    throw err;
+                }
+                
+                res.send(result);
+            });
+
+        }else{
+
+            response.codeResponse = "ko";
+            response.message = "Seul les membres connectés peuvent acceder à leurs informations";
+
+            res.send(response);
+        }
+    });
+
 
     app.get('/member/:pseudo', function(req, res){
 
         var response = {
             codeResponse: "",
-            message: "",
+            message: ""
         };
 
         var pseudoMember = req.params.pseudo;
         userModel.findOne({'name': pseudoMember}, {}, function(err, member){
 
             if(err){
-                console.error('ERROR RETREIVING MEMBER'+ pseudoMember);
+                console.error(errorLog('ERROR RETREIVING MEMBER'+ pseudoMember));
                 throw err;
             }
 
@@ -265,11 +379,11 @@ module.exports = function(app){
     app.get('/logout', function(req,res){
         req.session.destroy(function(err){
             if(err){
-                console.log(errorLog('Error logout!'));
+                console.log(errorLog('Error logging out!'));
                 console.log(err);
                 throw err;
             }
-            res.redirect('/');
+            res.send("ok");
         });
         /*
         req.logout();
@@ -277,38 +391,43 @@ module.exports = function(app){
         */
     });
 
-    /*
+
     //posting content to DB
     app.post('/postContent',function(req,res){
-        console.log('posting content...\n');
+        console.log(infoLog('posting content...\n'));
 
-        var title,director,actors,genre,duration,synopsis,why,publicationDate;	// le poster est géré par multer. On rajoute juste le chemmin du poster à la base(cf posterPath)
+        // to recollect all the data and put them in the body
+        req.body = req.body.data;
 
-        var response = checkFormFilm(req);					// verification du formulaire
-        if(response.codeResponse == "ko"){
+        var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
+
+        var response = checkForm.checkFormFilm(req);					          // verification du formulaire
+        if(response.codeResponse === "ko"){
             res.send(response);
         }else{
 
             title = req.body.title;
-            director=req.body.director;
+            director = req.body.director;
+
             actors = req.body.actors.split(', '); 		// transformation of string to array, parsing to ', '
 
             genre = []; 								// creating an array of genre
             genre.push(req.body.genre1);
 
             // Allow a movie to have less than 3 genre
-            if(typeof req.body.genre2 != 'undefined'){
+            if(typeof req.body.genre2 !== 'undefined'){
                 genre.push(req.body.genre2);
             }
-            if(typeof req.body.genre3 != 'undefined'){
+            if(typeof req.body.genre3 !== 'undefined'){
                 genre.push(req.body.genre3);
             }
-            duration = req.body.duree;
-            synopsis=req.body.synopsis;
-            why=req.body.why;
+            duration = req.body.duration;
+            synopsis = req.body.synopsis;
+            why = req.body.why;
             publicationDate = req.body.suggestionDate;
+            trailer = req.body.trailer;
 
-            console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\ndirector: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n');
+            console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\n director: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n trailer: '+trailer);
 
             var movieSchema = {
                 "title":title,
@@ -319,11 +438,12 @@ module.exports = function(app){
                 "poster":posterPath,
                 "duration":duration,
                 "why":why,
-                "suggestionDate":publicationDate
+                "suggestionDate":publicationDate,
+                "trailer":trailer
             };
 
-            if(done){										//used with multer to notify the upload sucess
-                console.log("uploading files complete!");
+            if(done){										//used with multer to notify the upload success
+                console.log(successLog("uploading files complete!"));
             }
 
             var movie = new movieModel(movieSchema);
@@ -333,22 +453,27 @@ module.exports = function(app){
                     console.log(errorLog('Error saving movie!'));
                     throw err;
                 }
-                console.log('movie added!\n');
+                console.log(successLog('movie added!\n'));
                 res.send(response);
             });
         }
     });
-*/
+
     // Adding new member into DB
     app.post('/newMember', function(req,res){
-        console.log('Adding new member...');
+        console.log(infoLog('Adding new member...'));
 
         var pseudo,mail,password,genre,description,response;
 
         checkForm.checkFormMember(req, function(err, response) {
+            
+            if(err){
+                console.log(errorLog('ERROR CHECKING FORM MEMBER!!!!'));
+                throw err;
+            }
 
-            if(response.codeResponse == "ko"){
-                console.log("Adding newMember failed! form wasn't valid.");
+            if(response.codeResponse === "ko"){
+                console.log(errorLog("Adding newMember failed! form wasn't valid."));
                 res.send(response);
             }else{
                 pseudo = req.body.pseudo;
@@ -387,12 +512,13 @@ module.exports = function(app){
                         console.log(errorLog('Error saving new member!!'));
                         throw err;
                     }
-                    console.log('New member '+user.name+' added!!');
+                    console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
-                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
+//                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
+                    fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
                         if(err){
-                            console.log('Welcome mail not found!');
+                            console.log(errorLog('Welcome mail not found!'));
                             throw err;
                         }
 
@@ -407,7 +533,7 @@ module.exports = function(app){
                                 console.log(errorLog("\nNew member: Error Sending mail!"));
                                 throw err;
                             }
-                            console.log('\nMessage successfully sent! Message:'+ mail.response);
+                            console.log(successLog('\nMessage successfully sent! Message:'+ mail.response));
                         });
                     });
 
@@ -506,6 +632,7 @@ module.exports = function(app){
 
                 response.codeResponse = "ok";
                 response.message = "Bienvenue "+user.name+" !";
+                response.isAdmin = sess.isAdmin;
                 res.send(response);
 
             }
@@ -552,7 +679,7 @@ module.exports = function(app){
         var response = checkFormMdp(req);
         var sess = req.session;
 
-        if(response.codeResponse == "ok"){
+        if(response.codeResponse === "ok"){
             userModel.findOne({"email":sess.email},{},function(err,user){
                 if(err){
                     console.log(errorLog('Error login! User not found!'));

@@ -21,8 +21,8 @@ angular.module('L3C_V2')
                     }
                     // Disable the 'undefined' genre when a movie have less than 3 genre.
                     $scope.result[r].genres = $scope.result[r].genre[0];
-                    for(var i = 1; i< $scope.result[r].genre.length; i++){
-                        if (typeof $scope.result[r].genre[i] != 'undefined'){
+                    for(var j = 1; i< $scope.result[j].genre.length; j++){
+                        if (typeof $scope.result[r].genre[j] !== 'undefined'){
                             $scope.result[r].genres +=", "+$scope.result[r].genre[1];
                         }
                     }
@@ -45,7 +45,7 @@ angular.module('L3C_V2')
                     // Disable the 'undefined' genre when a movie have less than 3 genre.
                     $scope.result[r].genres = $scope.result[r].genre[0];
                     for(var i = 1; i< $scope.result[r].genre.length; i++){
-                        if (typeof $scope.result[r].genre[i] != 'undefined'){
+                        if (typeof $scope.result[r].genre[i] !== 'undefined'){
                             $scope.result[r].genres +=", "+$scope.result[r].genre[1];
                         }
                     }
@@ -55,7 +55,6 @@ angular.module('L3C_V2')
     }
     
     $scope.go = function(path){
-        console.log('salut je suis le go');
         $location.path('/suggestion/'+path);
     };
 

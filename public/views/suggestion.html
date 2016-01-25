@@ -1,7 +1,9 @@
+<div nav-bar></div>
 <div>
     <div class="poster-about">
         <div class="poster">
-            <img src="../{{suggestion.poster}}">
+            <img src="{{suggestion.poster}}">
+            <div id="trailerButon" ng-show=suggestion.trailer ng-click="toggleTrailer()"> La bande annonce !</div>
         </div>
         <div class="about_movie">
 
@@ -29,6 +31,13 @@
         </div>
         <div id="div-img">
             <img src="../ressources/img/comingsoon.png">
+        </div>
+    </div>
+    <div ng-show="showingTrailer">
+        <div id="fadeMe" ng-click="toggleTrailer(true)"></div>
+        <div id="videoPlayer">
+            <iframe id="trailer" width="560" height="315" ng-src="{{trailerUrl}}" frameborder="0" allowfullscreen></iframe>
+            <img id="closeTrailer" src="../ressources/img/close.png" ng-click="toggleTrailer(true)">
         </div>
     </div>
 </div>

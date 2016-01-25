@@ -1,8 +1,10 @@
 {
-    "name": "L3C_V2",
-    "version": "0.0.1",
-    "dependencies": {
-        "angular": "latest",
-        "angular-route": "latest"   
-    }
+  "name": "L3C_V2",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "latest",
+    "angular-route": "latest",
+    "ng-file-upload": "~11.0.2",
+    "ng-file-upload-shim": "~11.0.2"
+  }
 }

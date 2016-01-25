@@ -7,6 +7,7 @@
     float: left;
     margin-left: 10%;
     margin-top: 2%;
+    margin-bottom: 2%;
     width: 35%;
     height: 50%;
 }
@@ -27,7 +28,7 @@
 #synopsisOlderSuggestion{
     margin-top:-5px; 
     width: 285px;
-    height:90px;
+    height:20%;
     overflow: hidden;
     text-overflow: ellipsis;
 }

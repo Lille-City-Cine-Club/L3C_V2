@@ -1,12 +1,14 @@
+<div nav-bar></div>
 <div>
     <div class="admin-body">
         <div class="admin-message">
             <h2 id="admin-message-accueil">{{title}}</h2>
             Sélectionnez dans le menu supérieur l'action que vous voulez effectuer.
         </div>
-        <div id="currentSuggestionDashboard" ng-click="go('/suggestion')">
+
+        <div class="dashboardCardLeft" ng-click="go('/suggestion')">
             <img class="posterSuggestionDashboard" src="../{{suggestion.poster}}" alt="La suggestion de l'équipe!"/>
-            <h3 id="titleSuggestionDashboard">{{suggestion.title}}</h3>
+            <h3>{{suggestion.title}}</h3>
             <ul id="recapSuggestionDashboard">
                 <li><i>{{suggestion.genre}} , {{suggestion.duration}}</i></li>
                 <li>{{suggestion.director}}</li>
@@ -14,14 +16,29 @@
             </ul>
             <p id="synopsisSuggestionDashboard">{{suggestion.synopsis}}</p>
         </div>
-        <div id="olderSuggestionDashboard" ng-click="go('/allSuggestion')">
+        <div class="dashboardCardRight" ng-click="go('/allSuggestion')">
             <img class="posterSuggestionDashboard" src="../{{penultimateSuggestion.poster}}" alt="Nos anciennes suggestions"/>
-            <h3 id="titleSuggestionDashboard">Nos anciennes suggestions</h3>
+            <h3>Nos anciennes suggestions</h3>
             <ul id="recapOldSuggestionDashboard">
-                <li ng-repeat="movie in movies">{{movie.title}}</li>
+                <li ng-repeat="movie in movies | limitTo:4">{{movie.title}}</li>
                 <li> . . .</li>
             </ul>
             <p id="clickForMore">C'est par ici! </p>
+        </div>
+        <div class="dashboardCardLeft" id="admin-NewSuggestion" ng-click="go('/newSuggestion')" ng-show="admin">
+            <img class="posterSuggestionDashboard" src="../ressources/img/newSuggestion.png"/>
+            <h3>Nouvelle suggestion</h3>
+            <p>Pour ajouter une nouvelle suggestion c'est par ici!</p>
+        </div>
+        <div class="dashboardCardRight" id="admin-ModificationSuggestion" ng-click="go('/modifSuggestion')" ng-show="admin">
+            <img class="posterSuggestionDashboard" src="../ressources/img/settings3.png"/>
+            <h3>Modifier la suggestion courante</h3>
+            <p>Une erreur dans le cast? le réal? le synopsis?! Change la vite par ici!</p>
+        </div>
+        <div class="dashboardCardLeft" id="modificationProfile" ng-click="go('/modifProfile')">
+            <img class="posterSuggestionDashboard" src="../ressources/img/settingsFinal.png"/>
+            <h3>Modifier son profil</h3>
+            <p>Une erreur lors de l'inscription? ou juste envie de modifier sa description? c'est par ici!</p>
         </div>
     </div>
 </div>
