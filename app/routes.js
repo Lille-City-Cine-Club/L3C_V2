@@ -1,7 +1,7 @@
 /* jshint node: true */  
 
 // grabing the dependencies we need
-var path = require('path');
+var path = require('path');                // to create paths
 
 //grabing all the models we need
 var userModel = require('./models/UsersModel');
