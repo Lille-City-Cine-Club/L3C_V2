@@ -25,8 +25,8 @@
     margin-bottom: 1%;    
 }
 
-#saveForm{
-    padding: inherit;
+input#saveForm {
+    padding: 0;
 }
 
 #login-inscription{
