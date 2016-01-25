@@ -23,7 +23,7 @@ angular.module('L3C_V2')
             
             // get iframe + enable stop video when hiding player
             var trailer = angular.element(document.getElementById('trailer'));
-            trailer[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+            trailer[0].contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
             
             $scope.showingTrailer = false;
         }

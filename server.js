@@ -11,6 +11,7 @@ var fs = require('fs');						// to read Files
 var mongoose = require('mongoose');			// for DB
 var session = require('express-session');	// to handle session storage
 var chalk = require('chalk');               // to be able to style log info in the console
+var path = require('path');                 // to create paths
 var app = express();
 
 // for the session
@@ -21,7 +22,7 @@ app.use(session({secret:'Hercules Project'}));
 //app.use(bodyParser.urlencoded({extended : true}));
 
 // to render statics files (i.e: img, html etc...)
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname,'/public')));
 
 app.set('port', (process.env.PORT || 7777));
 

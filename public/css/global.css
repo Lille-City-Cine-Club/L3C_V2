@@ -33,10 +33,10 @@ a:visited{
 /* ------------------------------------------------ AngularJS formvalidation -------------------------------------------------- */
 
 .ng-pristine { 
-    -moz-box-shadow: 0px 0px 5px 2px #9b9b9b;
-    -webkit-box-shadow: 0px 0px 5px 2px #9b9b9b;
-    -o-box-shadow: 0px 0px 5px 2px #9b9b9b;
-    box-shadow: 0px 0px 5px 2px #9b9b9b;
+    -moz-box-shadow: 0 0 5px 2px #9b9b9b;
+    -webkit-box-shadow: 0 0 5px 2px #9b9b9b;
+    -o-box-shadow: 0 0 5px 2px #9b9b9b;
+    box-shadow: 0 0 5px 2px #9b9b9b;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -56,10 +56,10 @@ select.ng-pristine:required{
 }
 
 input.ng-dirty.ng-valid, select.ng-dirty.ng-valid { 
-    -moz-box-shadow: 0px 0px 5px 2px #8BC34A;
-    -webkit-box-shadow: 0px 0px 5px 2px #8BC34A;
-    -o-box-shadow: 0px 0px 5px 2px #8BC34A;
-    box-shadow: 0px 0px 5px 2px #8BC34A;
+    -moz-box-shadow: 0 0 5px 2px #8BC34A;
+    -webkit-box-shadow: 0 0 5px 2px #8BC34A;
+    -o-box-shadow: 0 0 5px 2px #8BC34A;
+    box-shadow: 0 0 5px 2px #8BC34A;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#8BC34A, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -67,20 +67,20 @@ input.ng-dirty.ng-valid, select.ng-dirty.ng-valid {
 }
 input.ng-dirty.ng-invalid { 
     /*    border:2px solid #d32f2f;*/
-    -moz-box-shadow: 0px 0px 5px 2px #F44336;
-    -webkit-box-shadow: 0px 0px 5px 2px #F44336;
-    -o-box-shadow: 0px 0px 5px 2px #F44336;
-    box-shadow: 0px 0px 5px 2px #F44336;
+    -moz-box-shadow: 0 0 5px 2px #F44336;
+    -webkit-box-shadow: 0 0 5px 2px #F44336;
+    -o-box-shadow: 0 0 5px 2px #F44336;
+    box-shadow: 0 0 5px 2px #F44336;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#F44336, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 #form  :focus {
-    -moz-box-shadow: 0px 0px 5px 2px #29B6F6;
-    -webkit-box-shadow: 0px 0px 5px 2px #29B6F6;
-    -o-box-shadow: 0px 0px 5px 2px #29B6F6;
-    box-shadow: 0px 0px 5px 2px #29B6F6;
+    -moz-box-shadow: 0 0 5px 2px #29B6F6;
+    -webkit-box-shadow: 0 0 5px 2px #29B6F6;
+    -o-box-shadow: 0 0 5px 2px #29B6F6;
+    box-shadow: 0 0 5px 2px #29B6F6;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#29B6F6, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -89,10 +89,10 @@ input.ng-dirty.ng-invalid {
 
 select.ng-dirty.ng-invalid { 
     border:2px solid #d32f2f;
-    -moz-box-shadow: 0px 0px 5px 2px #F44336;
-    -webkit-box-shadow: 0px 0px 5px 2px #F44336;
-    -o-box-shadow: 0px 0px 5px 2px #F44336;
-    box-shadow: 0px 0px 5px 2px #F44336;
+    -moz-box-shadow: 0 0 5px 2px #F44336;
+    -webkit-box-shadow: 0 0 5px 2px #F44336;
+    -o-box-shadow: 0 0 5px 2px #F44336;
+    box-shadow: 0 0 5px 2px #F44336;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#F44336, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;

@@ -7,8 +7,6 @@ angular.module('L3C_V2')
     var reset = angular.copy($scope.formData);
 
     $scope.processNewSuggestion = function(){
-        window.alert('processNewSuggestion here!!');
-        console.info($scope.formData);
 
         var poster = $scope.poster;
 
