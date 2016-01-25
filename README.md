@@ -1,5 +1,7 @@
-# L3C
+# L3C_V2
 L3C_V2 sources'
+
+[![Code Climate](https://codeclimate.com/github/Lille-City-Cine-Club/L3C_V2/badges/gpa.svg)](https://codeclimate.com/github/Lille-City-Cine-Club/L3C_V2)
 
 
 Hi everyone! 
