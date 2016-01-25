@@ -1,9 +1,9 @@
 angular.module('L3C_V2')
     .controller('DashboardController', function($scope, $location, SessionService, SuggestionService){
 
-    
+
     $scope.admin = false;
-    
+
     SessionService.getCurrentSession().then(function(response){
 
         $scope.session = response.data;
@@ -22,7 +22,7 @@ angular.module('L3C_V2')
     });
 
     SuggestionService.getAllSuggestion().then(function(response){
-        
+
         $scope.penultimateSuggestion = response.data[response.data.length-2];
         $scope.movies = response.data;
     });
@@ -34,5 +34,5 @@ angular.module('L3C_V2')
     $scope.alert = function(text){
         window.alert(text);
     };
-    
+
 });

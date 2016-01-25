@@ -25,17 +25,12 @@
     margin-bottom: 1%;    
 }
 
-input#saveForm{
-    padding: 0px;
+#saveForm{
+    padding: inherit;
 }
 
-
-
 #login-inscription{
-    margin-top:3%;
-    margin-left:20%;
-    margin-right:20%;
-    margin-bottom:5%;
+    margin: 3% 20% 5% 20%;
 }
 #inscription h2{
     text-align:center;

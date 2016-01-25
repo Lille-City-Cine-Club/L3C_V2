@@ -1,12 +1,9 @@
-/* ------------------------------------------------------- Inscription -------------------------------------------------------- */
+/* ------------------------------------------------------- Inscription ------------------------------------------------------- */
 #form #formInscription{
     height:auto;
     border: 2px solid;
     border-radius:25px;
-    margin-top : 4%;
-    margin-left: 30%;
-    margin-right: 30%;
-    margin-bottom:3%;
+    margin: 4% 30% 3% 30%;
     padding-bottom:1%;
 }
 
@@ -64,10 +61,10 @@ input{
     padding-bottom: 5px;
 }
 #description .ng-dirty.ng-valid{
-    -moz-box-shadow: 0px 0px 5px 2px #8BC34A;
-    -webkit-box-shadow: 0px 0px 5px 2px #8BC34A;
-    -o-box-shadow: 0px 0px 5px 2px #8BC34A;
-    box-shadow: 0px 0px 5px 2px #8BC34A;
+    -moz-box-shadow: 0 0 5px 2px #8BC34A;
+    -webkit-box-shadow: 0 0 5px 2px #8BC34A;
+    -o-box-shadow: 0 0 5px 2px #8BC34A;
+    box-shadow: 0 0 5px 2px #8BC34A;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#8BC34A, Direction=NaN, Strength=5);
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
