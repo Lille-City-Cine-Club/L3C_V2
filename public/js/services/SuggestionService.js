@@ -96,7 +96,7 @@ angular.module('L3C_V2')
 
         return Upload.upload({
             url: url,
-            data: {file: file, suggestionData}
+            data: {poster: file, suggestionData}
         }).then(function (response) {
             return response;
             //            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.data);
