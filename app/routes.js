@@ -16,10 +16,26 @@ var bodyParser = require('body-parser');	// to parse req
 var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
 var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
 var nodemailer = require('nodemailer');		// to send emails
-var chance = require('chance').Chance();	// to generate random number/strings
 var crypto = require('crypto');				// to generate random strings
 var chalk = require('chalk');               // to be able to style log info in the console
 var multer = require('multer');				// for receiving multipart form
+//var upload = multer({ dest: './public/ressources/poster'});
+
+// to storage imgs
+var posterPath;
+var done = false;
+var storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './public/ressources/poster');
+    },
+    filename: function(req, file, cb){
+        //        posterPath = file.path.substring(7);
+        //        done = true;
+        cb(null, moment().format('YYYY_MM_DD')+"_"+file.originalname);
+    }
+});
+
+var upload = multer({storage: storage});
 
 
 // for sending mails
@@ -43,31 +59,31 @@ module.exports = function(app){
     app.use(bodyParser.urlencoded({extended : true}));
 
     // to store img in form (i.e poster)
-    var done = false;
-    var posterPath;
-    app.use(multer({dest: './public/ressources/poster',
-
-                    rename: function(fieldname, filename, req, res){
-                        return moment().format('YYYY_MM_DD')+"_"+filename;
-                    },
-                    onFileUploadStart: function(file, req, res){
-                        console.log(infoLog(file.name + ' uploading . . .'));
-                    },
-                    onFileUploadComplete: function(file, req, res){
-                        console.log(infoLog(file.name + ' successfully uploaded to :'+ file.path));
-                        // to cut off the './public/' part
-                        posterPath = file.path.substring(7);
-                        done = true;
-                    },
-                    onError: function(error, next){
-                        console.log(errorLog('Error! Uploading failed!'));
-                        console.log(error);
-
-                        // poster par defaut s'il n'yen a pas
-                        posterPath = "/ressources/poster/Poster404.jpg";
-                        next(error);
-                    }
-                   }));
+    //    var done = false;
+    //    var posterPath;
+    //    app.use(multer({dest: './public/ressources/poster',
+    //
+    //                    rename: function(fieldname, filename, req, res){
+    //                        return moment().format('YYYY_MM_DD')+"_"+filename;
+    //                    },
+    //                    onFileUploadStart: function(file, req, res){
+    //                        console.log(infoLog(file.name + ' uploading . . .'));
+    //                    },
+    //                    onFileUploadComplete: function(file, req, res){
+    //                        console.log(infoLog(file.name + ' successfully uploaded to :'+ file.path));
+    //                        // to cut off the './public/' part
+    //                        posterPath = file.path.substring(7);
+    //                        done = true;
+    //                    },
+    //                    onError: function(error, next){
+    //                        console.log(errorLog('Error! Uploading failed!'));
+    //                        console.log(error);
+    //
+    //                        // poster par defaut s'il n'yen a pas
+    //                        posterPath = "/ressources/poster/Poster404.jpg";
+    //                        next(error);
+    //                    }
+    //                   }));
 
     //Suggestion page
     app.get('/suggestion', function(req,res){
@@ -288,13 +304,13 @@ module.exports = function(app){
         var session = req.session; 
 
         if(session.email){
-            
+
             userModel.findOne({'email': session.email},{},{}, function(err, result){
                 if(err){
                     console.log(errorLog('Error retreiving user info!!'));
                     throw err;
                 }
-                
+
                 res.send(result);
             });
 
@@ -393,11 +409,25 @@ module.exports = function(app){
 
 
     //posting content to DB
-    app.post('/postContent',function(req,res){
+    app.post('/postContent', upload.single('poster'), function(req,res){
         console.log(infoLog('posting content...\n'));
 
+
+        console.log('req.body');
+        console.log(req.body);
+//        console.log('req.title');
+//        console.log(req.title);
+//        console.log('files');
+//        console.log(req.file);
+//        console.log('req.suggestionData');
+//        console.log(req.suggestionData);
+//        console.log('req.data');
+//        console.log(req.data);
+//        console.log('req');
+//        console.log(req);
+
         // to recollect all the data and put them in the body
-        req.body = req.body.data;
+        req.body = req.body.suggestionData;
 
         var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
 
@@ -466,7 +496,7 @@ module.exports = function(app){
         var pseudo,mail,password,genre,description,response;
 
         checkForm.checkFormMember(req, function(err, response) {
-            
+
             if(err){
                 console.log(errorLog('ERROR CHECKING FORM MEMBER!!!!'));
                 throw err;
@@ -515,7 +545,7 @@ module.exports = function(app){
                     console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
-//                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
+                    //                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
                     fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
                         if(err){
                             console.log(errorLog('Welcome mail not found!'));
