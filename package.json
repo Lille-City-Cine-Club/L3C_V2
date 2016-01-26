@@ -9,10 +9,15 @@
   "author": "Sufiane 'Don Diego' Souissi & Benjamin 'BennyP' Parrant",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.14.2",
     "chalk": "^1.1.1",
     "express": "^4.13.3",
-    "moment": "^2.9.0",
-    "mongoose": "^4.1.11"
+    "express-session": "^1.13.0",
+    "moment": "^2.11.1",
+    "mongoose": "^4.1.11",
+    "multer": "^1.1.0",
+    "nodemailer": "^2.0.0"
   },
   "devDependencies": {},
   "repository": {
