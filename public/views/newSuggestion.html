@@ -98,7 +98,7 @@
                         Il faut au moins préciser la durée du film
                     </span>
                     <span ng-show="formNewSuggestion.duree.$error.pattern && !formNewSuggestion.duree.$pristine">
-                        Votre formt n'est pas le bon. [0-9]{2}h[0-9]{2} ;)
+                        Votre format n'est pas le bon. [0-9]{2}h[0-9]{2} ;)
                     </span>
                 </li>
                 <li id="Synopsis" >
@@ -109,8 +109,7 @@
                     <div id="affiche-wrapper">
                         <label class="description" id="affiche-description">L'affiche du film: </label>
                         <!-- avec ngFileUpload           -->
-                        <input id="affiche" type="file" ngf-select name="poster" ng-model="poster" ngf-accept="'image/*'" ngf-max-size="20MB"/>
-
+                        <input id="affiche" type="file" ng-model="poster" ngf-select name="moviePoster" ngf-accept="'image/*'" ngf-max-size="20MB"/>
                     </div>
                 </li>		
                 <li id="Justification" >
