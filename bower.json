@@ -5,6 +5,11 @@
     "angular": "latest",
     "angular-route": "latest",
     "ng-file-upload": "~11.0.2",
-    "ng-file-upload-shim": "~11.0.2"
+    "ng-file-upload-shim": "~11.0.2",
+    "jquery-ui": "~1.11.4",
+    "jquery": "~2.2.0",
+    "bootstrap": "~3.3.6",
+    "jquery-carouFredSel": "*",
+    "angular-bootstrap": "~1.1.1"
   }
 }
