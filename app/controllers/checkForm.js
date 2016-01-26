@@ -54,7 +54,7 @@ var checkRequired= function ( arr, key, cb ) {
             codeResponse : "ko",
             message : "Le champ "+key+" doit au moins être complété !"
         });
-       
+
         return false;
     }
     var password = arr[key];
@@ -71,43 +71,44 @@ var checkRequired= function ( arr, key, cb ) {
 
 // checkForm for admin-suggestion
 var checkFormFilm = function(req){
-	var response = {
-		codeResponse:"",
-		message:""
-	};
-	if(req.body.title === "" || req.body.title === null ){
-		response.codeResponse = "ko";
-		response.message ="Le champ TITRE doit au moins être complété !";
-		return response;
-	}
-	if(req.body.director === "" || req.body.director === null ){
-		response.codeResponse = "ko";
-		response.message ="Le champ REALISATEUR doit au moins être complété !";
-		return response;
-	}
-	if(req.body.actors === "" || req.body.actors === null ){
-		response.codeResponse = "ko";
-		response.message ="Les champ ACTEURS doivent au moins être complétés !";
-		return response;
-	}
-	if(req.body.genre1 === "" || req.body.genre1 === null ){
-		response.codeResponse = "ko";
-		response.message ="Le premier GENRE doit au moins être complété !";
-		return response;
-	}
-	if(req.body.synopsis === "" || req.body.synopsis === null ){
-		response.codeResponse = "ko";
-		response.message ="Le champ SYNOPSIS doit au moins être complété !";
-		return response;
-	}
-	if(req.body.why === "" || req.body.why === null ){
-		response.codeResponse = "ko";
-		response.message ="Le champ JUSTIFICATION doit au moins être complétée !";
-		return response;
-	}
-	response.codeResponse = "ok";
-	response.message ="Success ! Movie " + req.body.title + " added into L3C DB";
-	return response;
+    
+    var response = {
+        codeResponse:"",
+        message:""
+    };
+    if(req.body.title === "" || req.body.title === null ){
+        response.codeResponse = "ko";
+        response.message ="Le champ TITRE doit au moins être complété !";
+        return response;
+    }
+    if(req.body.director === "" || req.body.director === null ){
+        response.codeResponse = "ko";
+        response.message ="Le champ REALISATEUR doit au moins être complété !";
+        return response;
+    }
+    if(req.body.actors === "" || req.body.actors === null ){
+        response.codeResponse = "ko";
+        response.message ="Les champ ACTEURS doivent au moins être complétés !";
+        return response;
+    }
+    if(req.body.genre1 === "" || req.body.genre1 === null ){
+        response.codeResponse = "ko";
+        response.message ="Le premier GENRE doit au moins être complété !";
+        return response;
+    }
+    if(req.body.synopsis === "" || req.body.synopsis === null ){
+        response.codeResponse = "ko";
+        response.message ="Le champ SYNOPSIS doit au moins être complété !";
+        return response;
+    }
+    if(req.body.why === "" || req.body.why === null ){
+        response.codeResponse = "ko";
+        response.message ="Le champ JUSTIFICATION doit au moins être complétée !";
+        return response;
+    }
+    response.codeResponse = "ok";
+    response.message ="Success ! Movie " + req.body.title + " added into L3C DB";
+    return response;
 };
 
 
