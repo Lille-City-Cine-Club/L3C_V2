@@ -412,7 +412,6 @@ module.exports = function(app){
     app.post('/postContent', upload.single('poster'), function(req,res){
         console.log(infoLog('posting content...\n'));
 
-
         console.log('req.body');
         console.log(req.body);
 //        console.log('req.title');
