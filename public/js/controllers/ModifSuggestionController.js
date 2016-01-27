@@ -9,8 +9,6 @@ angular.module('L3C_V2')
         //        var responseData = angular.copy(response.data.data);
         //        $scope.formData = responseData;
 
-        console.log(response.data.data);
-
         // setting all fields value
         $scope.formData.title = response.data.data.title;
         $scope.formData.director = response.data.data.director;
@@ -44,31 +42,13 @@ angular.module('L3C_V2')
         $scope.formData.suggestionDate = response.data.data.publicationDate;
         $scope.formData.trailer = response.data.data.trailer;
 
+        var modif = function(){
+            return true;
+        };
+        $scope.processNewSuggestion = function(){
+            window.alert('salut');
+        };
 
-        //setting all fields to dirty
-        $scope.formData.title.$dirty = true;
-        //        $scope.formData.director.$setDirty();
-        //        $scope.formData.genre1.$setDirty();
-        //        if(genre[1]){
-        //            $scope.formData.genre2.$setDirty();
-        //            if(genre[2]){
-        //                $scope.formData.genre3.$setDirty();
-        //            }
-        //        }
-        //        $scope.formData.duration.$setDirty();
-        //        $scope.formData.synopsis.$setDirty();
-        //        $scope.formData.why.$setDirty();
-        //        $scope.formData.suggestionDate.$setDirty();
-        //        $scope.formData.trailer.$setDirty();
-        //        $scope.formData.$setDirty();
-
-
-        $('input').each(function(){
-            console.log('salut je suis le each');            
-            $scope.formData.title.$setViewValue($scope.formData.title.$viewValue);
-            console.log($scope.formData.title.$dirty);
-            console.info($scope.formData.title.$viewValue);
-        });
     });
 
 });
