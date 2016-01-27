@@ -23,6 +23,7 @@
                 <li id="Acteurs" >
                     <label class="description" >Acteurs: </label>
                     <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+))+(\,\s([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+)*)*$/" required/>
+<!--                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([a-zA-Z-']*[\-\'\s]?)+([a-zA-Z]+))+(\,\s([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+)*)*$/" required/>-->
                     <span ng-show="formNewSuggestion.actors.$error.required && !formNewSuggestion.actors.$pristine">
                         Au moins un acteur est nécessaire
                     </span>
@@ -140,7 +141,8 @@
                 <li id="buttons">
                     <div id="ButtonsWrapper" >
                         <input type="hidden" name="form_id" value="955925" />
-                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" ng-disabled="formNewSuggestion.$invalid" />
+<!--                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" ng-disabled="formNewSuggestion.$invalid" />-->
+                        <input id="saveForm" class="buttonValider" type="submit" value="Valider" ng-disabled="formNewSuggestion.$invalid || modif()" />
                     </div>
                 </li>
             </ul>
