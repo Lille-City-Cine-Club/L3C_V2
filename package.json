@@ -25,7 +25,7 @@
         "url": "https://github.com/Lille-City-Cine-Club/L3C.git"
     },
     "scripts": {
-        "postinstall": "bower install",
+        "postinstall": "bower install"
     },
     "keywords": [
         "Movies",
