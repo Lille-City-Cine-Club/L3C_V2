@@ -1,37 +1,40 @@
 {
-  "name": "L3C_V2",
-  "version": "0.0.1",
-  "description": "L3C web Server",
-  "main": "server.js",
-  "scripts": {
-    "test": "at the moment we don't have any test (it's bad we know, we'll make them we promise!)"
-  },
-  "author": "Sufiane 'Don Diego' Souissi & Benjamin 'BennyP' Parrant",
-  "license": "MIT",
-  "dependencies": {
-    "bcryptjs": "^2.3.0",
-    "body-parser": "^1.14.2",
-    "chalk": "^1.1.1",
-    "express": "^4.13.3",
-    "express-session": "^1.13.0",
-    "moment": "^2.11.1",
-    "mongoose": "^4.1.11",
-    "multer": "^1.1.0",
-    "nodemailer": "^2.0.0"
-  },
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Lille-City-Cine-Club/L3C.git"
-  },
-  "keywords": [
-    "Movies",
-    "suggestion",
-    "student",
-    "project"
-  ],
-  "bugs": {
-    "url": "https://github.com/Lille-City-Cine-Club/L3C/issues"
-  },
-  "homepage": "https://github.com/Lille-City-Cine-Club/L3C"
+    "name": "L3C_V2",
+    "version": "0.0.1",
+    "description": "L3C web Server",
+    "main": "server.js",
+    "scripts": {
+        "test": "at the moment we don't have any test (it's bad we know, we'll make them we promise!)"
+    },
+    "author": "Sufiane 'Don Diego' Souissi & Benjamin 'BennyP' Parant",
+    "license": "MIT",
+    "dependencies": {
+        "bcryptjs": "^2.3.0",
+        "body-parser": "^1.14.2",
+        "chalk": "^1.1.1",
+        "express": "^4.13.3",
+        "express-session": "^1.13.0",
+        "moment": "^2.11.1",
+        "mongoose": "^4.1.11",
+        "multer": "^1.1.0",
+        "nodemailer": "^2.0.0"
+    },
+    "devDependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Lille-City-Cine-Club/L3C.git"
+    },
+    "scripts": {
+        "postinstall": "bower install",
+    },
+    "keywords": [
+        "Movies",
+        "suggestion",
+        "student",
+        "project"
+    ],
+    "bugs": {
+        "url": "https://github.com/Lille-City-Cine-Club/L3C/issues"
+    },
+    "homepage": "https://github.com/Lille-City-Cine-Club/L3C"
 }
