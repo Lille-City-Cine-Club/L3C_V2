@@ -5,8 +5,7 @@ angular.module('L3C_V2')
         var url = "/newMember";
         var responseService = {
             error : "",
-            errorMessage : "",
-            test: ""
+            errorMessage : ""
         };
 
         return $http.post(url, data)
@@ -17,7 +16,7 @@ angular.module('L3C_V2')
                     
                     return responseService;
                 }else{
-                    return response.data.data;
+                    return response.data;
                 }
             })
             .error(function(response){

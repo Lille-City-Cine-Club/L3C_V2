@@ -4,13 +4,14 @@
   "description": "L3C web Server",
   "main": "server.js",
   "scripts": {
-    "test": "at the moment we don't have any test (it's bad we know, we'll make them we promise!)"
+    "postinstall": "bower install"
   },
-  "author": "Sufiane 'Don Diego' Souissi & Benjamin 'BennyP' Parrant",
+  "author": "Sufiane 'Don Diego' Souissi & Benjamin 'BennyP' Parant",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.14.2",
+    "bower": "^1.7.6",
     "chalk": "^1.1.1",
     "express": "^4.13.3",
     "express-session": "^1.13.0",
