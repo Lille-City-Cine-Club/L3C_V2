@@ -22,13 +22,13 @@
                 </li>		
                 <li id="Acteurs" >
                     <label class="description" >Acteurs: </label>
-                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+))+(\,\s([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+)*)*$/" required/>
-<!--                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([a-zA-Z-']*[\-\'\s]?)+([a-zA-Z]+))+(\,\s([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+)*)*$/" required/>-->
+<!--                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+))+(\,\s([a-zA-Z]+[\-\'\s]?)+([a-zA-Z]+)*)*$/" required/>-->
+                    <input name="actors" id="acteurs"  type="text" maxlength="255" value="" ng-model="formData.actors" placeholder="acteur 1, acteur 2, ..." ng-pattern="/^(([A-Z]){1}\.([a-zA-Z\-\']+))+(\,\s(([A-Z]){1}\.([a-zA-Z\-\'])+)*)*$/" required/>
                     <span ng-show="formNewSuggestion.actors.$error.required && !formNewSuggestion.actors.$pristine">
                         Au moins un acteur est nécessaire
                     </span>
                     <span ng-show="formNewSuggestion.actors.$error.pattern && !formNewSuggestion.actors.$pristine">
-                        Le format accepté est le suivant: actor1, actor2, ...
+                        Le format accepté est le suivant: A.Actor1, A.Actor2, ...
                     </span>
                 </li>		
                 <!-- ComboBox: Genre-->
