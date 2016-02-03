@@ -1,7 +1,6 @@
 angular.module('L3C_V2')
     .controller('SuggestionController', function($scope, $location, $sce, SuggestionService){
 
-
     $scope.showingTrailer = false;
 
     SuggestionService.getCurrentSuggestion().then(function(response){

@@ -24,7 +24,7 @@ angular.module('L3C_V2')
     SuggestionService.getAllSuggestion().then(function(response){
 
         $scope.penultimateSuggestion = response.data[response.data.length-2];
-        $scope.movies = response.data;
+        $scope.movies = response.data.reverse();
     });
 
     $scope.go = function(path){

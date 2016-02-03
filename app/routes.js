@@ -22,15 +22,11 @@ var multer = require('multer');				// for receiving multipart form
 //var upload = multer({ dest: './public/ressources/poster'});
 
 // to storage imgs
-var posterPath;
-var done = false;
 var storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, './public/ressources/poster');
     },
     filename: function(req, file, cb){
-        //        posterPath = file.path.substring(7);
-        //        done = true;
         cb(null, moment().format('YYYY_MM_DD')+"_"+file.originalname);
     }
 });
@@ -411,24 +407,11 @@ module.exports = function(app){
     //posting content to DB
     app.post('/postContent', upload.single('poster'), function(req,res){
         console.log(infoLog('posting content...\n'));
-
-        console.log('req.body');
-        console.log(req.body);
-//        console.log('req.title');
-//        console.log(req.title);
-//        console.log('files');
-//        console.log(req.file);
-//        console.log('req.suggestionData');
-//        console.log(req.suggestionData);
-//        console.log('req.data');
-//        console.log(req.data);
-//        console.log('req');
-//        console.log(req);
-
+        
         // to recollect all the data and put them in the body
         req.body = req.body.suggestionData;
 
-        var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer;	   // le poster est géré par multer. On rajoute juste le chemin du poster à la base(cf posterPath)
+        var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer, posterPath;	   
 
         var response = checkForm.checkFormFilm(req);					          // verification du formulaire
         if(response.codeResponse === "ko"){
@@ -455,6 +438,7 @@ module.exports = function(app){
             why = req.body.why;
             publicationDate = req.body.suggestionDate;
             trailer = req.body.trailer;
+            posterPath = req.file.path.substring(7);    // need the substring part to cut off 'public' from the path 
 
             console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\n director: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n trailer: '+trailer);
 
@@ -470,10 +454,6 @@ module.exports = function(app){
                 "suggestionDate":publicationDate,
                 "trailer":trailer
             };
-
-            if(done){										//used with multer to notify the upload success
-                console.log(successLog("uploading files complete!"));
-            }
 
             var movie = new movieModel(movieSchema);
 
