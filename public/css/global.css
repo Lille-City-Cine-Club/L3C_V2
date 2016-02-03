@@ -1,4 +1,4 @@
-/* -------------------------------------------------------- General ----------------------------------------------------------- */
+/* -------------------------------------------------------- General ---------------------------------------------------------- */
 body {
     color: #333;
     background-color: #FAF5F5;
@@ -30,7 +30,32 @@ a:link{
 a:visited{
     color:#FFF;
 }
-/* ------------------------------------------------ AngularJS formvalidation -------------------------------------------------- */
+
+/* Scroll bar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(89,89,89,1); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(89,89,89,0.4); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(120,120,120,0.4); 
+}
+
+/* ------------------------------------------------ AngularJS formvalidation ------------------------------------------------- */
 
 .ng-pristine { 
     -moz-box-shadow: 0 0 5px 2px #9b9b9b;

@@ -37,4 +37,4 @@ angular.module('L3C_V2')
     });
 
 
-})
+});

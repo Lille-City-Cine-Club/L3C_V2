@@ -10,7 +10,7 @@ angular.module('L3C_V2')
             element.bind('change', function(){
                scope.$apply(function(){
                    modelSetter(scope, element[0].files[0]);
-               }) 
+               }); 
             });
         }
     };

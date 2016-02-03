@@ -2,7 +2,9 @@
 L3C_V2 sources'
 
 [![Code Climate](https://codeclimate.com/github/Lille-City-Cine-Club/L3C_V2/badges/gpa.svg)](https://codeclimate.com/github/Lille-City-Cine-Club/L3C_V2)
-
+[![bitHound Overall Score](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2/badges/score.svg)](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2)
+[![bitHound Code](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2/badges/code.svg)](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2)
+[![bitHound Dependencies](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2/badges/dependencies.svg)](https://www.bithound.io/github/Lille-City-Cine-Club/L3C_V2/master/dependencies/npm)
 
 Hi everyone! 
 
