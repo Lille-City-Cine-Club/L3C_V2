@@ -14,7 +14,7 @@ angular.module('L3C_V2')
         $scope.formData.director = response.data.data.director;
 
         // this one cause pb /!\
-        //        $scope.formData.actors = response.data.data.actors;
+        $scope.formData.actors = response.data.data.actors;
 
 
         /*-------------------- realy ugly, need to be improved ------------------*/
@@ -42,9 +42,12 @@ angular.module('L3C_V2')
         $scope.formData.suggestionDate = response.data.data.publicationDate;
         $scope.formData.trailer = response.data.data.trailer;
 
+        
+        //!\ need to be changed when we know how to set an input field to dirty!! /!\
         var modif = function(){
             return true;
         };
+        
         $scope.processNewSuggestion = function(){
             window.alert('salut');
         };
