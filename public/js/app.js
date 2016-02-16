@@ -23,7 +23,7 @@ app.config(function($routeProvider){
     })
         .when('/suggestion/:title', {
         templateUrl: "/views/suggestion.html",
-        controller: "SuggestionByTitleController",
+        controller: "SuggestionController",
         resolve:{
             "checkSession": function($location, SessionService){
                 SessionService.getCurrentSession().then(function(session){
