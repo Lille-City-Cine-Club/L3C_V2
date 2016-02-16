@@ -7,13 +7,14 @@ angular.module('L3C_V2')
         var suggestion;
         var url = '/suggestion';
 
-        return $http.get(url)
-            .success(function(response){
+        return $http.get(url).then(function success(response){ 
 
             suggestion = response.data;
+            
             return suggestion;
-        })
-            .error(function(response){
+
+        }, function error(response){
+
             var responseSuggestion = {
                 codeResponse : response.status,
                 message : response.statusText
@@ -96,7 +97,7 @@ angular.module('L3C_V2')
 
         return Upload.upload({
             url: url,
-            data: {poster: file, suggestionData}
+            data: {poster: file, suggestionData: suggestionData}
         }).then(function (response) {
             return response;
             //            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.data);
