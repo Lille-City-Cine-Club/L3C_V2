@@ -7,7 +7,7 @@ angular.module('L3C_V2')
     
     $scope.processLogin = function(){
         LoginService.processLogin($scope.formData).then(function(responseService){
-            var response = responseService.data;
+            var response = responseService;
             
             if(response.codeResponse === "ko"){
                 $scope.error = "true";

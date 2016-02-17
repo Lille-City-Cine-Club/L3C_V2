@@ -7,20 +7,22 @@ angular.module('L3C_V2')
         var suggestion;
         var url = '/suggestion';
 
-        return $http.get(url)
-            .success(function(response){
+        return $http.get(url).then(
+            function success(response){ 
 
-            suggestion = response.data;
-            return suggestion;
-        })
-            .error(function(response){
-            var responseSuggestion = {
-                codeResponse : response.status,
-                message : response.statusText
-            };
+                suggestion = response.data;
 
-            return responseSuggestion;
-        });
+                return suggestion;
+
+            }, function error(response){
+
+                var responseSuggestion = {
+                    codeResponse : response.status,
+                    message : response.statusText
+                };
+
+                return responseSuggestion;
+            });
     };
 
     var getAllSuggestion = function(){
@@ -28,20 +30,22 @@ angular.module('L3C_V2')
         var allSuggestion;
         var url = '/allSuggestions';
 
-        return $http.get(url)
-            .success(function(response){
+        return $http.get(url).then(
 
-            allSuggestion = response.data;                    
-            return allSuggestion;                
-        })
-            .error(function(response){
-            var responseSuggestion = {
-                codeResponse : response.status,
-                message : response.statusText
-            };
+            function success(response){
 
-            return responseSuggestion;            
-        });
+                allSuggestion = response.data;                    
+                return allSuggestion;   
+
+            }, function error(response){
+
+                var responseSuggestion = {
+                    codeResponse : response.status,
+                    message : response.statusText
+                };
+
+                return responseSuggestion;    
+            });
     };
 
     var getAllSuggestionWithDate = function(date){
@@ -49,21 +53,24 @@ angular.module('L3C_V2')
         var allSuggestion;
         var url = '/allSuggestions/'+date;
 
-        return $http.get(url)
-            .success(function(response){
+        return $http.get(url).then(
 
-            allSuggestion = response.data;                    
-            return allSuggestion;    
-        })
-            .error(function(response){
-            var responseSuggestion = {
-                codeResponse : response.status,
-                message : response.statusText
-            };
+            function success(response){
 
-            allSuggestion = responseSuggestion;            
-            return allSuggestion;
-        });
+                allSuggestion = response.data;                    
+                return allSuggestion; 
+
+            }, function error(response){
+
+                var responseSuggestion = {
+                    codeResponse : response.status,
+                    message : response.statusText
+                };
+
+                allSuggestion = responseSuggestion;            
+                return allSuggestion;
+
+            });
     };
 
 
@@ -72,19 +79,21 @@ angular.module('L3C_V2')
         var suggestion;
         var url = '/suggestion/'+title;
 
-        return $http.get(url)
-            .success(function(response){
-            suggestion = response.data;
-            return suggestion;
-        })
-            .error(function(response){
-            var responseSuggestion = {
-                codeResponse: "ko",
-                message: "error retreiving data from web services"
-            };
+        return $http.get(url).then(
+            function success(response){
 
-            return response;
-        });
+                suggestion = response.data;
+                return suggestion;
+
+            }, function error(response){
+
+                var responseSuggestion = {
+                    codeResponse: "ko",
+                    message: "error retreiving data from web services"
+                };
+
+                return response;
+            });
     };
 
     var setSuggestion = function(suggestion, file){
@@ -96,11 +105,11 @@ angular.module('L3C_V2')
 
         return Upload.upload({
             url: url,
-            data: {poster: file, suggestionData}
-        }).then(function (response) {
+            data: {poster: file, suggestionData: suggestionData}
+        }).then(function success(response) {
             return response;
             //            console.log('Success ' + response.config.data.file.name + 'uploaded. Response: ' + response.data);
-        }, function (response) {
+        }, function error(response) {
             return response;
             //            console.log('Error status: ' + response.status);
         });

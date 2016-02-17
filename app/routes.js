@@ -94,7 +94,7 @@ module.exports = function(app){
         if(typeof sess === "undefined"){
 
             response.codeResponse = "ko";
-            response.message = "pas de session detectée, retour vers l'accueil";
+            response.message = "pas de session detect&eacute;e, retour vers l'accueil";
 
             res.send(response);            
 
@@ -127,7 +127,7 @@ module.exports = function(app){
 
                     var duration;
                     if( typeof movie.duration === 'undefined'){
-                        duration = "Un film sans durée :O !";
+                        duration = "Un film sans dur&eacute;e :O !";
                     }else{
                         duration = movie.duration;
                     }
@@ -155,7 +155,7 @@ module.exports = function(app){
             }else{
 
                 response.codeResponse = "ko";
-                response.message = "Seul les membres connectés peuvent consulter les suggestions";
+                response.message = "Seul les membres connect&eacute;s peuvent consulter les suggestions";
 
                 res.send(response);
             }
@@ -196,7 +196,7 @@ module.exports = function(app){
 
                 var duration;
                 if( typeof movie.duration === 'undefined'){
-                    duration = "Un film sans durée :O !";
+                    duration = "Un film sans dur&eacute;e :O !";
                 }else{
                     duration = movie.duration;
                 }
@@ -223,7 +223,7 @@ module.exports = function(app){
             }else{
 
                 response.codeResponse = "ko";
-                response.message = "pas de suggestion faite portant ce nom désolé";
+                response.message = "pas de suggestion faite portant ce nom d&eacute;sol&eacute;";
 
                 res.send(response);
             }
@@ -253,7 +253,7 @@ module.exports = function(app){
             });
         }else{
             response.codeResponse = "ko";
-            response.message = "Seul les membres connectés peuvent acceder aux suggestions passées.";
+            response.message = "Seul les membres connect&eacute;s peuvent acceder aux suggestions pass&eacute;es.";
 
             res.send(response);
         }
@@ -284,7 +284,7 @@ module.exports = function(app){
         }else{
 
             response.codeResponse = "ko";
-            response.message = "Seul les membres connectés peuvent acceder aux suggestions passées.";
+            response.message = "Seul les membres connect&eacute;s peuvent acceder aux suggestions pass&eacute;es.";
 
             res.send(response);
         }
@@ -313,7 +313,7 @@ module.exports = function(app){
         }else{
 
             response.codeResponse = "ko";
-            response.message = "Seul les membres connectés peuvent acceder à leurs informations";
+            response.message = "Seul les membres connect&eacute;s peuvent acceder à leurs informations";
 
             res.send(response);
         }
@@ -337,7 +337,7 @@ module.exports = function(app){
 
             if(member === null){
                 response.codeResponse = "ko";
-                response.message = "Aucun membre du nom "+pseudoMember+" présent dans la base de données";
+                response.message = "Aucun membre du nom "+pseudoMember+" pr&eacute;sent dans la base de donn&eacute;es";
 
                 res.send(response);
             }else{
@@ -365,7 +365,7 @@ module.exports = function(app){
                 throw err;
             }
             if(user === null){
-                console.log('ReedfinePass: Utilisateur non trouvé!');
+                console.log('ReedfinePass: Utilisateur non trouv&eacute;!');
             }
 
             sess.email = user.email;
@@ -524,8 +524,7 @@ module.exports = function(app){
                     console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
-                    //                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
-                    fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
+                    fs.readFile(path.join(__dirname, '../public/views/mail/welcome.html'),'utf8',function(err,data){
                         if(err){
                             console.log(errorLog('Welcome mail not found!'));
                             throw err;
@@ -636,7 +635,7 @@ module.exports = function(app){
                 sess.email = user.email;
                 sess.name = user.name;
                 sess.isAdmin = user.isAdmin;
-
+                
                 req.session = sess;
 
                 response.codeResponse = "ok";
@@ -678,7 +677,7 @@ module.exports = function(app){
                 throw err;
             }
             response.codeResponse = "ok";
-            response.message ="message correctement changé.";
+            response.message ="message correctement chang&eacute;.";
             res.send(response);
         });
     });
@@ -750,7 +749,7 @@ module.exports = function(app){
             if(user === null){
                 console.log('ForgottenPass : no user found');
                 response.codeResponse = "ko";
-                response.message = "Adresse mail non trouvé!";
+                response.message = "Adresse mail non trouv&eacute;!";
                 res.send(response);
             }else{
                 mail = user.email;
@@ -766,7 +765,7 @@ module.exports = function(app){
                     mailer.sendMail({
                         from:"Admin L3C <bennyp.dondiego@gmail.com>",
                         to:mail,
-                        subject:"Mot de passe oublié",
+                        subject:"Mot de passe oubli&eacute;",
                         html: htmlContent
 
                     },function(err,mail){
@@ -776,7 +775,7 @@ module.exports = function(app){
                         }
                         console.log('\nMessage successfully sent! Message:'+ mail.response);
                         response.codeResponse = "ok";
-                        response.message = "Un mail de redéfinition de votre mot de passe vous a été envoyé";
+                        response.message = "Un mail de red&eacute;finition de votre mot de passe vous a &eacute;t&eacute; envoy&eacute;";
                         res.send(response);
                     });
                 });
@@ -800,7 +799,7 @@ module.exports = function(app){
 
             if(user === null){
                 response.codeResponse = "ko";
-                response.message = "Membre non trouvé!";
+                response.message = "Membre non trouv&eacute;!";
 
                 res.send(response);
             }else{
@@ -835,7 +834,7 @@ module.exports = function(app){
 
             if(user === null){
                 response.codeResponse = "ko";
-                response.message = "Membre non trouvé!";
+                response.message = "Membre non trouv&eacute;!";
 
                 res.send(response);
             }else{
