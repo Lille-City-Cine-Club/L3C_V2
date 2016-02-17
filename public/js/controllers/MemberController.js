@@ -4,8 +4,8 @@ angular.module('L3C_V2')
 
     MemberService.getMember($routeParams.pseudo).then(function(response){
 
-        if(response.data.codeResponse === "ok"){
-            $scope.member = response.data.data;
+        if(response.codeResponse === "ok"){
+            $scope.member = response.data;
 
             if($scope.member.isAdmin){
                 $scope.member.role = "admin";

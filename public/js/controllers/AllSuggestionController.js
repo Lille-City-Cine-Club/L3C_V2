@@ -6,10 +6,10 @@ angular.module('L3C_V2')
 
 
     var processServerResponse = function(response){
-        if(response.data.codeResponse === "ko"){
+        if(response.codeResponse === "ko"){
             $location.path('/');
         }else{
-            $scope.result = response.data.reverse();
+            $scope.result = response.reverse();
 
             for(var r = 0; r< $scope.result.length ; r++){
 

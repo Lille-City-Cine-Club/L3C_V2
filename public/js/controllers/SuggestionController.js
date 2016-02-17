@@ -6,7 +6,7 @@ angular.module('L3C_V2')
     if($routeParams.title){
 
         SuggestionService.getSuggestionByTitle($routeParams.title).then(function(response){
-            $scope.suggestion = response.data.data;
+            $scope.suggestion = response.data;
         }); 
 
     }else{

@@ -8,14 +8,14 @@ angular.module('L3C_V2')
         
         InscriptionService.processInscription($scope.formData).then(function(response){
             
-            if(response.data.codeResponse === "ko"){
+            if(response.codeResponse === "ko"){
                 $scope.error = "true";
                 $scope.success = "";
-                $scope.errorMessage = response.data.message;
+                $scope.errorMessage = response.message;
             }else{
                 $scope.error = "";
                 $scope.success = "true";
-                $scope.successMessage = response.data.message;
+                $scope.successMessage = response.message;
                 $timeout(function(){
                     $location.path('/');
                 }, 2000);
