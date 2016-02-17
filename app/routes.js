@@ -524,8 +524,7 @@ module.exports = function(app){
                     console.log(successLog('New member '+user.name+' added!!'));
                     console.log(user);
 
-                    //                    fs.readFile(__dirname+'../../public/views/mail/welcome.html','utf8',function(err,data){
-                    fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
+                    fs.readFile(path.join(__dirname, '../public/views/mail/welcome.html'),'utf8',function(err,data){
                         if(err){
                             console.log(errorLog('Welcome mail not found!'));
                             throw err;
