@@ -32,20 +32,16 @@ input#saveForm {
 #login-inscription{
     margin: 3% 20% 5% 20%;
 }
-#inscription h2{
-    text-align:center;
-}
-#inscription #accrocheInscription{
+
+#accrocheInscription{
     font-size:1.1em;
     text-align:justify;
 }
-#inscription #accrocheInscription #dvlpt{
+#accrocheInscription #dvlpt{
     font-size:0.9em;
 }
-#inscription {
-    text-align:center;
-}
-#inscription #buttonInscription{
+
+#buttonInscription{
     text-align:center;
     border: 1px solid;
     border-radius:25px;
@@ -58,13 +54,13 @@ input#saveForm {
     font-weight:bold;
     font-size:1.3em;
 }
-#inscription #buttonInscription a:link{
+#buttonInscription a:link{
     text-decoration:none;
 }
-#inscription #buttonInscription a:visited{
+#buttonInscription a:visited{
     color:#FFF;
 }
-#inscription #buttonInscription p{
+#buttonInscription p{
     padding:6%;
 }
 #ButtonsWrapper{
