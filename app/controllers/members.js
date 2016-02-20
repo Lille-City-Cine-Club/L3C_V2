@@ -4,12 +4,12 @@
 var userModel = require('../models/UsersModel');
 
 var checkForm = require('../controllers/checkForm'); // form verifications
+var logger = require('../../config/logger');
 
 //grabing all the dependencies we need
 var fs = require('fs');                     // to read Files
 var path = require('path');                 // to create paths
 var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
-var chalk = require('chalk');               // to be able to style log info in the console
 var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
 var nodemailer = require('nodemailer');		// to send emails
 
@@ -22,11 +22,6 @@ var mailer = nodemailer.createTransport({
         pass: "adminl3c"
     }
 });
-
-// log styles colors for console styling
-var errorLog = chalk.bold.bgRed;
-var successLog = chalk.bold.bgGreen;
-var infoLog = chalk.bold.bgBlue.white;
 
 //get current user infos
 exports.userInfo = function(req, res){
@@ -42,7 +37,7 @@ exports.userInfo = function(req, res){
 
         userModel.findOne({'email': session.email},{},{}, function(err, result){
             if(err){
-                console.log(errorLog('Error retreiving user info!!'));
+                logger.logError('Error retreiving user info!!');
                 throw err;
             }
 
@@ -71,7 +66,7 @@ exports.memberByPseudo = function(req, res){
     userModel.findOne({'name': pseudoMember}, {}, function(err, member){
 
         if(err){
-            console.error(errorLog('ERROR RETREIVING MEMBER'+ pseudoMember));
+            logger.logError('ERROR RETREIVING MEMBER'+ pseudoMember);
             throw err;
         }
 
@@ -93,19 +88,19 @@ exports.memberByPseudo = function(req, res){
 
 // signin (i.e: adding new member into DB)
 exports.signin = function(req, res){
-    console.log(infoLog('Adding new member...'));
+    logger.logInfo('Adding new member...');
 
     var pseudo,mail,password,genre,description,response;
 
     checkForm.checkFormMember(req, function(err, response) {
 
         if(err){
-            console.log(errorLog('ERROR CHECKING FORM MEMBER!!!!'));
+            logger.logError('ERROR CHECKING FORM MEMBER!!!!');
             throw err;
         }
 
         if(response.codeResponse === "ko"){
-            console.log(errorLog("Adding newMember failed! form wasn't valid."));
+            logger.logError('Adding newMember failed! form wasn\'t valid!');
             res.send(response);
         }else{
             pseudo = req.body.pseudo;
@@ -141,15 +136,15 @@ exports.signin = function(req, res){
             user = new userModel(user);
             user.save(function(err,member){
                 if(err){
-                    console.log(errorLog('Error saving new member!!'));
+                    logger.logError('Error saving new member!!');
                     throw err;
                 }
-                console.log(successLog('New member '+user.name+' added!!'));
+                logger.logSuccess('New member '+ user.name + ' added!!');
                 console.log(user);
 
                 fs.readFile(path.join(__dirname, '../../public/views/mail/welcome.html'),'utf8',function(err,data){
                     if(err){
-                        console.log(errorLog('Welcome mail not found!'));
+                        logger.logInfo('Welcome mail not found!');
                         throw err;
                     }
 
@@ -161,10 +156,10 @@ exports.signin = function(req, res){
 
                     },function(err,mail){
                         if(err){
-                            console.log(errorLog("\nNew member: Error Sending mail!"));
+                            logger.logError('\nNew member: error sending mail!');
                             throw err;
                         }
-                        console.log(successLog('\nMessage successfully sent! Message:'+ mail.response));
+                        logger.logSuccess('\nMessage successfully sent! Message:'+ mail.response);
                     });
                 });
 
@@ -185,7 +180,7 @@ exports.login = function(req, res){
 
     userModel.findOne({"email":req.body.email},{},function(err,user){
         if(err){
-            console.log(errorLog('Error login! User not found!'));
+            logger.logError('Error login! User not found!');
             throw err;
         }
 
@@ -219,7 +214,7 @@ exports.login = function(req, res){
 exports.logout = function(req, res){
     req.session.destroy(function(err){
         if(err){
-            console.log(errorLog('Error logging out!'));
+            logger.logError('Error logging out!');
             console.log(err);
             throw err;
         }

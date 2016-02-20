@@ -7,13 +7,7 @@ var checkForm = require('../controllers/checkForm'); // form verifications
 
 //grabing all the dependencies we need
 var moment = require('moment');
-var chalk = require('chalk');
-
-
-// log styles colors for console styling
-var errorLog = chalk.bold.bgRed;
-var successLog = chalk.bold.bgGreen;
-var infoLog = chalk.bold.bgBlue.white;
+var logger = require('../../config/logger');
 
 // get the current suggestion
 exports.currentSuggestion = function(req, res){
@@ -39,10 +33,10 @@ exports.currentSuggestion = function(req, res){
 
             movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
                 if(err){
-                    console.log(errorLog('Error find!'));
+                    logger.logError('Error find current suggestion');
                     throw err;
                 }
-                console.log(infoLog('\nSuggestion Loaded! Movie: '+ movie.title +'\n'));
+                logger.logInfo('\nSuggestion Loaded! Movie: '+ movie.title +'\n');
 
                 // disable "actors1, undefined ..."
                 var actors = "";
@@ -110,7 +104,7 @@ exports.suggestionByTitle = function(req, res){
 
     movieModel.findOne({'title': suggestionTitle},{}, function(err, movie){
         if(err){
-            console.log(errorLog('ERROR RETREIVING SUGGESTION BY TITLE'));
+            logger.logError('ERROR RETREIVING SUGGESTION BY TITLE');
             throw err;
         }
         if(movie){
@@ -179,7 +173,7 @@ exports.allSuggestions = function(req, res){
         var currentDate = moment();
         movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
             if(err){
-                console.log(errorLog('Error retreiving all the suggestions !!'));
+                logger.logError('Error retreiving all the suggestions !!');
                 throw err;
             }
 
@@ -209,7 +203,7 @@ exports.allSuggestionsDate = function(req, res){
         var currentDate = moment(date);
         movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
             if(err){
-                console.log(errorLog('Error retreiving all the suggestions !!'));
+                logger.logError('Error retreiving all the suggestions by date !!');
                 throw err;
             }
             res.send(result);
@@ -225,7 +219,7 @@ exports.allSuggestionsDate = function(req, res){
 
 // Adding a new suggestion into DB
 exports.postSuggestion = function(req, res){
-    console.log(infoLog('posting content...\n'));
+    logger.logInfo('posting content...\n');
 
     // to recollect all the data and put them in the body
     req.body = req.body.suggestionData;
@@ -278,10 +272,10 @@ exports.postSuggestion = function(req, res){
 
         movie.save(function(err,data){
             if(err){
-                console.log(errorLog('Error saving movie!'));
+                logger.logError('Error saving movie!');
                 throw err;
             }
-            console.log(successLog('movie added!\n'));
+            logger.logSuccess('movie added!\n');
             res.send(response);
         });
     }

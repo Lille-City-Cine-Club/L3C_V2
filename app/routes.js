@@ -8,7 +8,6 @@ module.exports = function(app){
     var bodyParser = require('body-parser');	// to parse req
     var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
     var nodemailer = require('nodemailer');		// to send emails
-    var chalk = require('chalk');               // to be able to style log info in the console
     var multer = require('multer');				// for receiving multipart form
     //var upload = multer({ dest: './public/ressources/poster'});
 
@@ -33,11 +32,6 @@ module.exports = function(app){
             pass: "adminl3c"
         }
     });
-
-    // log styles colors for console styling
-    var errorLog = chalk.bold.bgRed;
-    var successLog = chalk.bold.bgGreen;
-    var infoLog = chalk.bold.bgBlue.white;
 
     //for post request
     app.use(bodyParser.json());
