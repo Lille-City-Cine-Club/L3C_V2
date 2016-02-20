@@ -4,20 +4,10 @@ module.exports = function(app){
     // grabing the dependencies we need
     var path = require('path');                // to create paths
 
-    //grabing all the models we need
-    var userModel = require('./models/UsersModel');
-    var movieModel = require('./models/MovieModel');
-
-    //grabbing all of our controllers
-    var checkForm = require('./controllers/checkForm');
-
     // grabing the middleware we need
-    var fs = require('fs');						// to read Files
     var bodyParser = require('body-parser');	// to parse req
     var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
-    var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
     var nodemailer = require('nodemailer');		// to send emails
-    var crypto = require('crypto');				// to generate random strings
     var chalk = require('chalk');               // to be able to style log info in the console
     var multer = require('multer');				// for receiving multipart form
     //var upload = multer({ dest: './public/ressources/poster'});
