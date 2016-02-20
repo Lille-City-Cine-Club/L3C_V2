@@ -1,355 +1,77 @@
 /* jshint node: true */  
-
-// grabing the dependencies we need
-var path = require('path');                // to create paths
-
-//grabing all the models we need
-var userModel = require('./models/UsersModel');
-var movieModel = require('./models/MovieModel');
-
-//grabbing all of our controllers
-var checkForm = require('./controllers/checkForm');
-
-// grabing the middleware we need
-var fs = require('fs');						// to read Files
-var bodyParser = require('body-parser');	// to parse req
-var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
-var bcrypt = require('bcryptjs');			// to crypt password before puting them into DB
-var nodemailer = require('nodemailer');		// to send emails
-var crypto = require('crypto');				// to generate random strings
-var chalk = require('chalk');               // to be able to style log info in the console
-var multer = require('multer');				// for receiving multipart form
-//var upload = multer({ dest: './public/ressources/poster'});
-
-// to storage imgs
-var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, './public/ressources/poster');
-    },
-    filename: function(req, file, cb){
-        cb(null, moment().format('YYYY_MM_DD')+"_"+file.originalname);
-    }
-});
-
-var upload = multer({storage: storage});
-
-
-// for sending mails
-var mailer = nodemailer.createTransport({
-    service: "Gmail",
-    auth:{
-        user: "bennyp.dondiego@gmail.com",
-        pass: "adminl3c"
-    }
-});
-
-// log styles colors for console styling
-var errorLog = chalk.bold.bgRed;
-var successLog = chalk.bold.bgGreen;
-var infoLog = chalk.bold.bgBlue.white;
-
 module.exports = function(app){
+
+    // grabing the dependencies we need
+    var path = require('path');                // to create paths
+
+    // grabing the middleware we need
+    var bodyParser = require('body-parser');	// to parse req
+    var moment = require('moment');             // for date //date=moment().format('MMMM Do YYYY, h:mm:ss a');
+    var nodemailer = require('nodemailer');		// to send emails
+    var multer = require('multer');				// for receiving multipart form
+    //var upload = multer({ dest: './public/ressources/poster'});
+
+    // to storage imgs
+    var storage = multer.diskStorage({
+        destination: function(req, file, cb){
+            cb(null, './public/ressources/poster');
+        },
+        filename: function(req, file, cb){
+            cb(null, moment().format('YYYY_MM_DD')+"_"+file.originalname);
+        }
+    });
+
+    var upload = multer({storage: storage});
+
+
+    // for sending mails
+    var mailer = nodemailer.createTransport({
+        service: "Gmail",
+        auth:{
+            user: "bennyp.dondiego@gmail.com",
+            pass: "adminl3c"
+        }
+    });
 
     //for post request
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
 
-    // to store img in form (i.e poster)
-    //    var done = false;
-    //    var posterPath;
-    //    app.use(multer({dest: './public/ressources/poster',
-    //
-    //                    rename: function(fieldname, filename, req, res){
-    //                        return moment().format('YYYY_MM_DD')+"_"+filename;
-    //                    },
-    //                    onFileUploadStart: function(file, req, res){
-    //                        console.log(infoLog(file.name + ' uploading . . .'));
-    //                    },
-    //                    onFileUploadComplete: function(file, req, res){
-    //                        console.log(infoLog(file.name + ' successfully uploaded to :'+ file.path));
-    //                        // to cut off the './public/' part
-    //                        posterPath = file.path.substring(7);
-    //                        done = true;
-    //                    },
-    //                    onError: function(error, next){
-    //                        console.log(errorLog('Error! Uploading failed!'));
-    //                        console.log(error);
-    //
-    //                        // poster par defaut s'il n'yen a pas
-    //                        posterPath = "/ressources/poster/Poster404.jpg";
-    //                        next(error);
-    //                    }
-    //                   }));
 
-    //Suggestion page
-    app.get('/suggestion', function(req,res){
+    /* ---------------------------------- Suggestions routes ---------------------------------------- */
+    var suggestions = require('./controllers/suggestions');
 
+    app.get('/suggestion', suggestions.currentSuggestion);
+    app.get('/suggestion/:title', suggestions.suggestionByTitle);
+    app.get('/allSuggestions', suggestions.allSuggestions);
+    app.get('/allSuggestions/:date', suggestions.allSuggestionsDate);
+
+    app.post('/postContent', upload.single('poster'), suggestions.postSuggestion); 
+
+    /* ------------------------------------- Members routes ----------------------------------------- */
+    var members = require('./controllers/members');
+
+    app.get('/userInfo', members.userInfo);
+    app.get('/member/:pseudo', members.memberByPseudo);
+    app.get('/logout', members.logout);
+
+    app.post('/newMember', members.signin);
+    app.post('/loginConnection', members.login);
+
+
+    /*-------------------------------------- Generic routes ----------------------------------------- */
+    // whatsMyName, send session info
+    app.get('/whatsMyName', function(req,res){
         var sess = req.session;
-        var response = {
-            codeResponse: "",
-            message: "",
-            data: ""
-        };
-
-        if(typeof sess === "undefined"){
-
-            response.codeResponse = "ko";
-            response.message = "pas de session detect&eacute;e, retour vers l'accueil";
-
-            res.send(response);            
-
-        }else{
-            if(sess.email){
-
-                var currentDate = moment().format('YYYY-MM-DD');
-
-                movieModel.findOne({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:-1}},function(err,movie){
-                    if(err){
-                        console.log(errorLog('Error find!'));
-                        throw err;
-                    }
-                    console.log(infoLog('\nSuggestion Loaded! Movie: '+ movie.title +'\n'));
-
-                    // disable "actors1, undefined ..."
-                    var actors = "";
-                    for(var i = 0; i<movie.actors.length ; i++){
-                        actors += movie.actors[i]+', ';
-                    }
-                    // Disable the 'undefined' genre when a movie have less than 3 genre.
-                    var genre = "";
-                    genre += movie.genre[0];
-                    if (typeof movie.genre[1] !== 'undefined'){
-                        genre +=", "+movie.genre[1];
-                    }
-                    if(typeof movie.genre[2] !== 'undefined'){
-                        genre +=", "+movie.genre[2];
-                    }
-
-                    var duration;
-                    if( typeof movie.duration === 'undefined'){
-                        duration = "Un film sans dur&eacute;e :O !";
-                    }else{
-                        duration = movie.duration;
-                    }
-
-                    var movieResult = {
-                        title : movie.title,
-                        actors : actors,
-                        director : movie.director,
-                        genre : genre,
-                        duration : duration,
-                        synopsis : movie.synopsis,
-                        why : movie.why,
-                        poster : movie.poster,
-                        trailer : movie.trailer,
-                        publicationDate : moment(movie.suggestionDate).format("YYYY-MM-DD")
-                    };
-
-                    response.codeResponse = "ok";
-                    response.message = "suggestion correctly retreived from DB";
-                    response.data = movieResult;
-
-                    res.send(response);
-                });
-
-            }else{
-
-                response.codeResponse = "ko";
-                response.message = "Seul les membres connect&eacute;s peuvent consulter les suggestions";
-
-                res.send(response);
-            }
-        }
+        console.log('Session asked : ');
+        console.log(sess);
+        res.send(sess);
     });
 
-    //get an older suggestion by its title
-    app.get('/suggestion/:title', function(req, res){
-
-        var response = {
-            codeResponse: "",
-            message: "",
-            data: ""
-        };
-
-        var suggestionTitle = req.params.title;
-
-        movieModel.findOne({'title': suggestionTitle},{}, function(err, movie){
-            if(err){
-                console.log(errorLog('ERROR RETREIVING SUGGESTION BY TITLE'));
-                throw err;
-            }
-            if(movie){
-                // disable "actors1, undefined ..."
-                var actors = "";
-                for(var i = 0; i<movie.actors.length ; i++){
-                    actors += movie.actors[i]+', ';
-                }
-                // Disable the 'undefined' genre when a movie have less than 3 genre.
-                var genre ="";
-                genre += movie.genre[0];
-                if (typeof movie.genre[1] !== 'undefined'){
-                    genre +=", "+movie.genre[1];
-                }
-                if(typeof movie.genre[2] !== 'undefined'){
-                    genre +=", "+movie.genre[2];
-                }
-
-                var duration;
-                if( typeof movie.duration === 'undefined'){
-                    duration = "Un film sans dur&eacute;e :O !";
-                }else{
-                    duration = movie.duration;
-                }
-
-                var movieResult = {
-                    title : movie.title,
-                    actors : actors,
-                    director : movie.director,
-                    genre : genre,
-                    duration : duration,
-                    synopsis : movie.synopsis,
-                    why : movie.why,
-                    poster : movie.poster,
-                    trailer : movie.trailer,
-                    publicationDate : moment(movie.suggestionDate, "YYYY-MM-DD")
-                };
-
-                response.codeResponse = "ok";
-                response.message = "suggestion correctly retreived from DB";
-                response.data = movieResult;
-
-                res.send(response);
-
-            }else{
-
-                response.codeResponse = "ko";
-                response.message = "pas de suggestion faite portant ce nom d&eacute;sol&eacute;";
-
-                res.send(response);
-            }
-        });
-    });
-
-
-    //all the suggestions that were published prior the current date.
-    app.get('/allSuggestions', function(req, res){
-
-        var response = {
-            codeResponse: "",
-            message: ""
-        };
-
-        var session = req.session;
-
-        if(session.email){
-            var currentDate = moment();
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
-                if(err){
-                    console.log(errorLog('Error retreiving all the suggestions !!'));
-                    throw err;
-                }
-
-                res.send(result);
-            });
-        }else{
-            response.codeResponse = "ko";
-            response.message = "Seul les membres connect&eacute;s peuvent acceder aux suggestions pass&eacute;es.";
-
-            res.send(response);
-        }
-    });
-
-
-    //all the suggestions that were published prior the date passad as parameters
-    app.get('/allSuggestions/:date', function(req, res){
-
-        var response = {
-            codeResponse: "",
-            message: ""
-        };
-
-        var session = req.session;
-
-        if(session.email){
-
-            var date = req.params.date;
-            var currentDate = moment(date);
-            movieModel.find({'suggestionDate':{ $lte : currentDate }},{},{sort:{suggestionDate:1}},function(err, result){
-                if(err){
-                    console.log(errorLog('Error retreiving all the suggestions !!'));
-                    throw err;
-                }
-                res.send(result);
-            });
-        }else{
-
-            response.codeResponse = "ko";
-            response.message = "Seul les membres connect&eacute;s peuvent acceder aux suggestions pass&eacute;es.";
-
-            res.send(response);
-        }
-    });
-
-    app.get('/userInfo', function(req, res){
-
-        var response = {
-            codeResponse: "",
-            message: ""
-        };
-
-        var session = req.session; 
-
-        if(session.email){
-
-            userModel.findOne({'email': session.email},{},{}, function(err, result){
-                if(err){
-                    console.log(errorLog('Error retreiving user info!!'));
-                    throw err;
-                }
-
-                res.send(result);
-            });
-
-        }else{
-
-            response.codeResponse = "ko";
-            response.message = "Seul les membres connect&eacute;s peuvent acceder à leurs informations";
-
-            res.send(response);
-        }
-    });
-
-
-    app.get('/member/:pseudo', function(req, res){
-
-        var response = {
-            codeResponse: "",
-            message: ""
-        };
-
-        var pseudoMember = req.params.pseudo;
-        userModel.findOne({'name': pseudoMember}, {}, function(err, member){
-
-            if(err){
-                console.error(errorLog('ERROR RETREIVING MEMBER'+ pseudoMember));
-                throw err;
-            }
-
-            if(member === null){
-                response.codeResponse = "ko";
-                response.message = "Aucun membre du nom "+pseudoMember+" pr&eacute;sent dans la base de donn&eacute;es";
-
-                res.send(response);
-            }else{
-
-                response.codeResponse = "ok";
-                response.message = "";
-                response.data = member;
-
-                res.send(response);
-            }
-        });
-
+    // for frontend routes, to handle all angular routes
+    app.get('*', function(req, res){
+        console.log('* loaded');
+        res.sendFile(path.join(__dirname, '../public/views', 'index.html'));
     });
 
     /*
@@ -387,170 +109,6 @@ module.exports = function(app){
     });
     */
 
-    // logout
-    app.get('/logout', function(req,res){
-        req.session.destroy(function(err){
-            if(err){
-                console.log(errorLog('Error logging out!'));
-                console.log(err);
-                throw err;
-            }
-            res.send("ok");
-        });
-        /*
-        req.logout();
-        res.redirect('/');
-        */
-    });
-
-
-    //posting content to DB
-    app.post('/postContent', upload.single('poster'), function(req,res){
-        console.log(infoLog('posting content...\n'));
-        
-        // to recollect all the data and put them in the body
-        req.body = req.body.suggestionData;
-
-        var title,director,actors,genre,duration,synopsis,why,publicationDate,trailer, posterPath;	   
-
-        var response = checkForm.checkFormFilm(req);					          // verification du formulaire
-        if(response.codeResponse === "ko"){
-            res.send(response);
-        }else{
-
-            title = req.body.title;
-            director = req.body.director;
-
-            actors = req.body.actors.split(', '); 		// transformation of string to array, parsing to ', '
-
-            genre = []; 								// creating an array of genre
-            genre.push(req.body.genre1);
-
-            // Allow a movie to have less than 3 genre
-            if(typeof req.body.genre2 !== 'undefined'){
-                genre.push(req.body.genre2);
-            }
-            if(typeof req.body.genre3 !== 'undefined'){
-                genre.push(req.body.genre3);
-            }
-            duration = req.body.duration;
-            synopsis = req.body.synopsis;
-            why = req.body.why;
-            publicationDate = req.body.suggestionDate;
-            trailer = req.body.trailer;
-            posterPath = req.file.path.substring(7);    // need the substring part to cut off 'public' from the path 
-
-            console.log('title: '+title+'\n genre: '+genre+'\n duration: '+duration+'\n director: '+director+'\n actors: '+actors+'\n synopsis: '+synopsis+'\n poster:'+posterPath+'\n why:'+why+'\n plublication date:'+publicationDate +'\n trailer: '+trailer);
-
-            var movieSchema = {
-                "title":title,
-                "director":director,
-                "actors":actors,
-                "genre":genre,
-                "synopsis":synopsis,
-                "poster":posterPath,
-                "duration":duration,
-                "why":why,
-                "suggestionDate":publicationDate,
-                "trailer":trailer
-            };
-
-            var movie = new movieModel(movieSchema);
-
-            movie.save(function(err,data){
-                if(err){
-                    console.log(errorLog('Error saving movie!'));
-                    throw err;
-                }
-                console.log(successLog('movie added!\n'));
-                res.send(response);
-            });
-        }
-    });
-
-    // Adding new member into DB
-    app.post('/newMember', function(req,res){
-        console.log(infoLog('Adding new member...'));
-
-        var pseudo,mail,password,genre,description,response;
-
-        checkForm.checkFormMember(req, function(err, response) {
-
-            if(err){
-                console.log(errorLog('ERROR CHECKING FORM MEMBER!!!!'));
-                throw err;
-            }
-
-            if(response.codeResponse === "ko"){
-                console.log(errorLog("Adding newMember failed! form wasn't valid."));
-                res.send(response);
-            }else{
-                pseudo = req.body.pseudo;
-                mail = req.body.mail;
-                var salt = bcrypt.genSaltSync(10);
-                password = bcrypt.hashSync(req.body.password,salt);
-
-                genre =[];
-                genre.push(req.body.genre1);
-
-                if(req.body.genre2 !== undefined){
-                    genre.push(req.body.genre2);
-                }
-                if(req.body.genre3 !== undefined){
-                    genre.push(req.body.genre3);
-                }
-
-                if(req.body.description !== undefined){
-                    description = req.body.description;
-                }else{
-                    description = pseudo +" est encore un peu timide.. Souhaitez lui la bienvenue ! ";
-                }
-
-                var user = {
-                    "name":pseudo,
-                    "email":mail,
-                    "password":password,
-                    "isAdmin":false,
-                    "description":description,
-                    "genre":genre
-                };
-
-                user = new userModel(user);
-                user.save(function(err,member){
-                    if(err){
-                        console.log(errorLog('Error saving new member!!'));
-                        throw err;
-                    }
-                    console.log(successLog('New member '+user.name+' added!!'));
-                    console.log(user);
-
-                    fs.readFile(path.join(__dirname, '../public/views/mail/welcome.html'),'utf8',function(err,data){
-                        if(err){
-                            console.log(errorLog('Welcome mail not found!'));
-                            throw err;
-                        }
-
-                        mailer.sendMail({
-                            from:"Admin L3C <bennyp.dondiego@gmail.com>",
-                            to:mail,
-                            subject:"Bienvenue au sein du L3C!",
-                            html: data
-
-                        },function(err,mail){
-                            if(err){
-                                console.log(errorLog("\nNew member: Error Sending mail!"));
-                                throw err;
-                            }
-                            console.log(successLog('\nMessage successfully sent! Message:'+ mail.response));
-                        });
-                    });
-
-                    res.send(response);
-                });
-            }
-        });
-    });
-
     /*
     // Adding new poster for the carousel
     app.post('/postCarousel', function(req,res){
@@ -585,67 +143,6 @@ module.exports = function(app){
     });
     */
 
-    // Post loggin page
-    app.post('/loginConnection', function(req,res){
-
-        var response = {
-            codeResponse:"",
-            message:"",
-            isAdmin:""
-        };
-
-        userModel.findOne({"email":req.body.email},{},function(err,user){
-            if(err){
-                console.log(errorLog('Error login! User not found!'));
-                throw err;
-            }
-
-            if(user === null || !bcrypt.compareSync(req.body.password, user.password)){
-
-                response.codeResponse = "ko";
-                response.message="Email ou Mot de Passe incorrect!";
-                response.isAdmin = "";
-
-                res.send(response);
-            }else{
-                var sess = req.session;
-                console.log(user);
-
-                /*if(user.isAdmin !== true){
-                    sess.email = user.email;
-                    sess.name = user.name;
-                    sess.isAdmin = user.isAdmin;
-                    //rajout dans la sessions des autres attributs d'un membre possible ici.
-
-                    response.codeResponse = "ok";
-                    response.message = "Bienvenue "+user.name+" !";
-                    res.send(response);
-                }else{
-
-                    sess.email = user.email;
-                    sess.name = user.name;
-                    sess.isAdmin = user.isAdmin;
-
-                    response.codeResponse = "ok";
-                    response.isAdmin = user.isAdmin;
-
-                    res.send(response);
-                }*/
-
-                sess.email = user.email;
-                sess.name = user.name;
-                sess.isAdmin = user.isAdmin;
-                
-                req.session = sess;
-
-                response.codeResponse = "ok";
-                response.message = "Bienvenue "+user.name+" !";
-                response.isAdmin = sess.isAdmin;
-                res.send(response);
-
-            }
-        });
-    });
     /*
     //updateMdp
     app.post('/updatePass', function(req,res){
@@ -847,20 +344,4 @@ module.exports = function(app){
         });
     });
     */
-    // whatsMyName
-    app.get('/whatsMyName', function(req,res){
-        var sess = req.session;
-        console.log('Session asked : ');
-        console.log(sess);
-        res.send(sess);
-    });
-
-
-
-    // for frontend routes, to handle all angular routes
-    app.get('*', function(req, res){
-        console.log('* loaded');
-        res.sendFile(path.join(__dirname, '../public/views', 'index.html'));
-    });
-
 };
