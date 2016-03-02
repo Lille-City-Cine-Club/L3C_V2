@@ -29,7 +29,7 @@ module.exports = function(app){
         service: "Gmail",
         auth:{
             user: "bennyp.dondiego@gmail.com",
-            pass: "adminl3c"
+            pass: "adminl3cv2"
         }
     });
 
